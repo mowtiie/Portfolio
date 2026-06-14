@@ -26,11 +26,12 @@
 <body>
 
   <header class="topbar">
-    <a href="#top" class="logo" aria-label="Home">~ Mowtiie</a>
+    <a href="#top" class="logo" aria-label="Home">~ mowtiie</a>
     <nav class="nav" aria-label="Primary">
       <a href="#about">about</a>
       <a href="#interests">things</a>
       <a href="#work">work</a>
+      <a href="#awards">awards</a>
       <a href="#contact">say hi</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
@@ -68,9 +69,6 @@
         <ul class="socials" aria-label="Find me online">
           <li><a href="https://github.com/mowtiie" target="_blank" rel="noopener" aria-label="GitHub">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.01c-3.2.7-3.87-1.36-3.87-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.76 2.69 1.25 3.34.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.18a10.87 10.87 0 015.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.77 1.06.77 2.13v3.16c0 .31.21.68.8.56C20.21 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
-          </a></li>
-          <li><a href="https://x.com/mowtiie" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a></li>
           <li><a href="https://linkedin.com/in/vrixzandro" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11.001-4.121 2.06 2.06 0 010 4.121zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
@@ -149,6 +147,17 @@
       </div>
     </section>
 
+    <section class="awards" id="awards">
+      <h2 class="section-title">awards &amp; certs
+        <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draw-path" d="M 2 4 Q 24 1 48 4 T 96 4 T 144 4 T 198 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </h2>
+      <ul class="award-list" id="award-list">
+        <!-- Filled in by script.js from awards.js -->
+      </ul>
+    </section>
+
     <section class="contact" id="contact">
       <h2 class="section-title">say hi
         <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
@@ -160,13 +169,34 @@
       </p>
     </section>
 
+    <section class="verify" id="verify">
+      <h2 class="section-title">verify
+        <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draw-path" d="M 2 4 Q 24 1 48 4 T 96 4 T 144 4 T 198 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </h2>
+      <p class="verify-text">
+        for encrypted email or to verify something I've signed, here's my public PGP key.
+      </p>
+      <div class="pgp-card">
+        <div class="pgp-row">
+          <span class="pgp-label">fingerprint</span>
+          <code class="pgp-fingerprint">9EA2 8F46 7802 5092 7643  1B69 42B5 FA42 AA63 90E1</code>
+        </div>
+        <div class="pgp-actions">
+          <a href="./PGP_PUBLIC_KEY.asc" download class="pgp-link">download .asc →</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
-    <p>made with coffee and a small amount of curiousity · ©<span id="year"></span></p>
+    <p>made with coffee and curiousity · ©<span id="year"></span></p>
   </footer>
 
   <script src="projects.js"></script>
+  <script src="awards.js"></script>
   <script src="script.js"></script>
   <script type="module" src="voxel.js"></script>
 </body>
