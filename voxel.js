@@ -23,7 +23,6 @@ function initVoxelScene(container) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  // Theme-aware palette
   function getPalette() {
     const dark = document.documentElement.getAttribute('data-theme') === 'dark';
     return {
@@ -33,7 +32,6 @@ function initVoxelScene(container) {
     };
   }
 
-  // Lights — strong directional from above-right to create top/right/left face differentiation
   const ambient = new THREE.AmbientLight(0xffffff, 0.55);
   scene.add(ambient);
 
@@ -45,11 +43,9 @@ function initVoxelScene(container) {
   fill.position.set(-4, 2, -3);
   scene.add(fill);
 
-  // Group holding all voxel objects
   const group = new THREE.Group();
   scene.add(group);
 
-  // Track meshes for theme updates
   const meshes = [];
   const lineSegments = [];
 
@@ -73,23 +69,16 @@ function initVoxelScene(container) {
   function buildScene() {
     const p = getPalette();
 
-    // Book 1 — biggest, bottom
     makeBox(2.2, 0.45, 1.5, 0, -1.0, 0, p.fill);
-    // Book 2 — middle, slightly offset
     makeBox(1.85, 0.4, 1.25, 0.1, -0.55, 0.05, p.accent);
-    // Book 3 — smaller, top of stack
     makeBox(1.55, 0.38, 1.05, -0.05, -0.16, -0.05, p.fill);
 
-    // Mug — cube on top of stack
     makeBox(0.7, 0.85, 0.7, 0.0, 0.45, 0.0, p.accent);
-    // Mug handle — small cube on side
     makeBox(0.18, 0.4, 0.32, 0.45, 0.45, 0.0, p.accent);
 
-    // Small accent floating cube — a little flourish
     makeBox(0.35, 0.35, 0.35, -1.1, 0.7, 0.6, p.fill);
   }
 
-  // Rebuild scene on theme change (re-creates meshes with fresh palette)
   function rebuild() {
     while (group.children.length) {
       const child = group.children[0];
@@ -104,7 +93,6 @@ function initVoxelScene(container) {
 
   buildScene();
 
-  // Watch for theme attribute changes
   const themeObserver = new MutationObserver(() => {
     rebuild();
   });
@@ -113,7 +101,6 @@ function initVoxelScene(container) {
     attributeFilter: ['data-theme'],
   });
 
-  // Controls — drag to rotate, no zoom, no pan, gentle auto-rotate
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.08;
@@ -125,7 +112,6 @@ function initVoxelScene(container) {
   controls.maxPolarAngle = Math.PI / 2.05;
   controls.target.set(0, 0.0, 0);
 
-  // Pause auto-rotate while user is dragging, resume after a pause
   let resumeTimer;
   controls.addEventListener('start', () => {
     controls.autoRotate = false;
@@ -137,7 +123,6 @@ function initVoxelScene(container) {
     }, 2500);
   });
 
-  // Animation loop
   function tick() {
     requestAnimationFrame(tick);
     controls.update();
@@ -145,7 +130,6 @@ function initVoxelScene(container) {
   }
   tick();
 
-  // Handle resize
   function onResize() {
     const w = container.clientWidth;
     const h = container.clientHeight;
@@ -155,7 +139,6 @@ function initVoxelScene(container) {
   }
   window.addEventListener('resize', onResize);
 
-  // Respect reduced motion: turn off auto-rotate
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reducedMotion.matches) {
     controls.autoRotate = false;

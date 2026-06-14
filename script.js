@@ -1,6 +1,3 @@
-// =========================
-// Theme: light/dark toggle
-// =========================
 const root = document.documentElement;
 const toggle = document.getElementById('theme-toggle');
 
@@ -18,9 +15,6 @@ if (toggle) {
   });
 }
 
-// =========================
-// Render projects
-// =========================
 const grid = document.getElementById('project-grid');
 const projects = window.PROJECTS || [];
 
@@ -55,9 +49,6 @@ if (grid && projects.length) {
   grid.innerHTML = `<p style="color: var(--text-soft);">No projects yet. Edit <code>projects.js</code> to add some.</p>`;
 }
 
-// =========================
-// Scroll-triggered doodle drawing
-// =========================
 if ('IntersectionObserver' in window) {
   const drawObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -72,12 +63,8 @@ if ('IntersectionObserver' in window) {
     drawObserver.observe(path);
   });
 } else {
-  // Fallback: just show all paths drawn
   document.querySelectorAll('.draw-path').forEach((p) => p.classList.add('drawn'));
 }
 
-// =========================
-// Footer year
-// =========================
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
