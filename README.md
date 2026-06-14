@@ -1,6 +1,6 @@
-# My portfolio
+# Portfolio
 
-A minimal, doodle-themed personal site. Hand-built with plain HTML, CSS, and a small amount of JavaScript. One Three.js voxel scene for personality. Dark mode included.
+This is a minimal, doodle-themed personal site. Hand-built with plain HTML, CSS, and a small amount of JavaScript. One Three.js voxel scene for personality. Dark mode included.
 
 ## What's in it
 
@@ -29,7 +29,6 @@ A minimal, doodle-themed personal site. Hand-built with plain HTML, CSS, and a s
 | `script.js` | Theme toggle, project rendering, scroll animations |
 | `voxel.js` | The 3D voxel scene |
 | `projects.js` | Project list — edit this to add work |
-| `profile.jpg` | Your photo (square, ~400×400 recommended) |
 
 ## Run locally
 
@@ -43,13 +42,13 @@ Then open `http://localhost:8000`. Or use the **Live Server** extension in VS Co
 
 ## Customizing
 
-**Your details.** In `index.html`, search-and-replace `yourname`, `Sam`, `you@yourname.com`, and `yourusername`. Edit the two paragraphs inside `<section class="about">`.
+**For the details.** In `index.html`, search-and-replace `yourname`, `Sam`, `you@yourname.com`, and `yourusername`. Edit the two paragraphs inside `<section class="about">`.
 
-**Your photo.** Save it as `profile.jpg` in the project root. If the file isn't there, the site falls back to your initial letter.
+**For the photo.** Save it as `profile.jpg` in the project root. If the file isn't there, the site falls back to your initial letter.
 
-**Your projects.** Open `projects.js`. Each project is an object with `title`, `description`, `tags` (array), `repo` (URL), and an optional `live` (URL). Copy a block to add one, delete to remove.
+**For the projects.** Open `projects.js`. Each project is an object with `title`, `description`, `tags` (array), `repo` (URL), and an optional `live` (URL). Copy a block to add one, delete to remove.
 
-**Your voxel.** In `voxel.js`, the `buildScene` function is where the books and mug are drawn. Each `makeBox(width, height, depth, x, y, z, color)` is one cube — change sizes, positions, or add more.
+**For the voxel.** In `voxel.js`, the `buildScene` function is where the books and mug are drawn. Each `makeBox(width, height, depth, x, y, z, color)` is one cube — change sizes, positions, or add more.
 
 ## Deploy
 
