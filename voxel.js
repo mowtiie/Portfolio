@@ -69,14 +69,29 @@ function initVoxelScene(container) {
   function buildScene() {
     const p = getPalette();
 
-    makeBox(2.2, 0.45, 1.5, 0, -1.0, 0, p.fill);
-    makeBox(1.85, 0.4, 1.25, 0.1, -0.55, 0.05, p.accent);
-    makeBox(1.55, 0.38, 1.05, -0.05, -0.16, -0.05, p.fill);
+    makeBox(0.85, 0.65, 0.7, -1.0, -0.175, -0.5, p.fill);     
+    makeBox(0.75, 0.16, 0.6, -1.0, 0.23, -0.5, p.accent);     
+    makeBox(0.5, 0.16, 0.4, -1.0, 0.39, -0.5, p.accent);      
+    makeBox(0.25, 0.18, 0.22, -1.0, 0.55, -0.5, p.fill);      
+    makeBox(0.12, 0.28, 0.03, -1.0, -0.36, -0.13, p.accent);  
 
-    makeBox(0.7, 0.85, 0.7, 0.0, 0.45, 0.0, p.accent);
-    makeBox(0.18, 0.4, 0.32, 0.45, 0.45, 0.0, p.accent);
+    makeBox(1.1, 0.08, 0.7, 0.2, -0.46, 0.6, p.fill);         
+    makeBox(1.1, 0.6, 0.05, 0.2, -0.12, 0.27, p.accent);      
+    makeBox(0.9, 0.45, 0.02, 0.2, -0.12, 0.295, p.fill);      
 
-    makeBox(0.35, 0.35, 0.35, -1.1, 0.7, 0.6, p.fill);
+    makeBox(0.4, 0.45, 0.4, 1.3, -0.275, 0.3, p.accent);      
+    makeBox(0.06, 0.55, 0.06, 1.22, 0.05, 0.35, p.fill);      
+    makeBox(0.06, 0.7, 0.06, 1.35, 0.13, 0.22, p.accent);     
+    makeBox(0.06, 0.6, 0.06, 1.4, 0.08, 0.4, p.fill);         
+
+    makeBox(0.34, 0.28, 0.3, 0, -0.36, 1.4, p.fill);          
+    makeBox(0.08, 0.08, 0.08, 0, -0.34, 1.20, p.fill);        
+    makeBox(0.3, 0.3, 0.28, 0, -0.07, 1.48, p.fill);          
+    makeBox(0.06, 0.3, 0.07, -0.08, 0.23, 1.48, p.fill);      
+    makeBox(0.06, 0.3, 0.07, 0.08, 0.23, 1.48, p.fill);       
+    makeBox(0.08, 0.08, 0.02, -0.07, -0.05, 1.63, p.accent);  
+    makeBox(0.08, 0.08, 0.02, 0.07, -0.05, 1.63, p.accent);   
+    makeBox(0.04, 0.02, 0.02, 0, -0.05, 1.63, p.accent);      
   }
 
   function rebuild() {
