@@ -54,14 +54,15 @@ const awards = window.AWARDS || [];
 
 function awardItem(a) {
   const verify = a.link
-    ? ` <a href="${escapeHtml(a.link)}" target="_blank" rel="noopener">verify →</a>`
-    : '';
+    ? `<a class="award-verify" href="${escapeHtml(a.link)}" target="_blank" rel="noopener">verify →</a>`
+    : '<span></span>';
   return `<li class="award">
-    <div class="award-main">
-      <div class="award-title">${escapeHtml(a.title)}</div>
-      <div class="award-meta">${escapeHtml(a.issuer)}${verify}</div>
+    <h3 class="award-title">${escapeHtml(a.title)}</h3>
+    <div class="award-meta">${escapeHtml(a.issuer)}</div>
+    <div class="award-footer">
+      <span class="award-year">${escapeHtml(a.year)}</span>
+      ${verify}
     </div>
-    <span class="award-year">${escapeHtml(a.year)}</span>
   </li>`;
 }
 
