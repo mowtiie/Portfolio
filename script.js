@@ -49,6 +49,28 @@ if (grid && projects.length) {
   grid.innerHTML = `<p style="color: var(--text-soft);">No projects yet. Edit <code>projects.js</code> to add some.</p>`;
 }
 
+const awardList = document.getElementById('award-list');
+const awards = window.AWARDS || [];
+
+function awardItem(a) {
+  const verify = a.link
+    ? ` <a href="${escapeHtml(a.link)}" target="_blank" rel="noopener">verify →</a>`
+    : '';
+  return `<li class="award">
+    <div class="award-main">
+      <div class="award-title">${escapeHtml(a.title)}</div>
+      <div class="award-meta">${escapeHtml(a.issuer)}${verify}</div>
+    </div>
+    <span class="award-year">${escapeHtml(a.year)}</span>
+  </li>`;
+}
+
+if (awardList && awards.length) {
+  awardList.innerHTML = awards.map(awardItem).join('');
+} else if (awardList) {
+  awardList.innerHTML = `<li style="color: var(--text-soft); list-style: none;">No awards yet. Edit <code>awards.js</code> to add some.</li>`;
+}
+
 if ('IntersectionObserver' in window) {
   const drawObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
