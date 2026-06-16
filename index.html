@@ -26,13 +26,12 @@
 <body>
 
   <header class="topbar">
-    <a href="#top" class="logo" aria-label="Home">~ mowtiie</a>
+    <a href="/" class="logo" aria-label="Home">~ mowtiie</a>
     <nav class="nav" aria-label="Primary">
-      <a href="#about">about</a>
-      <a href="#interests">things</a>
-      <a href="#work">work</a>
-      <a href="#awards">awards</a>
-      <a href="#contact">say hi</a>
+      <a href="/#about">about</a>
+      <a href="/#interests">things</a>
+      <a href="/work">work</a>
+      <a href="/#contact">say hi</a>
     </nav>
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" type="button">
       <svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -58,7 +57,7 @@
         </div>
 
         <div class="name-wrap">
-          <h1 class="name">hi, I'm Vrix.</h1>
+          <h1 class="name">hi, I'm Sam.</h1>
           <svg class="name-scribble" viewBox="0 0 320 90" preserveAspectRatio="none" aria-hidden="true">
             <path class="draw-path" d="M 30 70 Q 8 38 50 18 Q 140 0 260 14 Q 305 24 295 56 Q 285 84 200 84 Q 90 88 24 70 Q 14 66 30 70 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -73,7 +72,7 @@
           <li><a href="https://linkedin.com/in/vrixzandro" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11.001-4.121 2.06 2.06 0 010 4.121zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
           </a></li>
-          <li><a href="mailto:contact@mowtiie.cc" aria-label="Email">
+          <li><a href="mailto:mowtiie.dev@gmail.com" aria-label="Email">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </a></li>
         </ul>
@@ -136,28 +135,6 @@
       </ul>
     </section>
 
-    <section class="work" id="work">
-      <h2 class="section-title">work
-        <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
-          <path class="draw-path" d="M 2 4 Q 24 1 48 4 T 96 4 T 144 4 T 198 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </h2>
-      <div class="project-grid" id="project-grid">
-        <!-- Filled in by script.js from projects.js -->
-      </div>
-    </section>
-
-    <section class="awards" id="awards">
-      <h2 class="section-title">awards &amp; certs
-        <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
-          <path class="draw-path" d="M 2 4 Q 24 1 48 4 T 96 4 T 144 4 T 198 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      </h2>
-      <ul class="award-list" id="award-list">
-        <!-- Filled in by script.js from awards.js -->
-      </ul>
-    </section>
-
     <section class="contact" id="contact">
       <h2 class="section-title">say hi
         <svg class="title-underline" viewBox="0 0 200 8" preserveAspectRatio="none" aria-hidden="true">
@@ -165,7 +142,7 @@
         </svg>
       </h2>
       <p class="contact-text">
-        the easiest way is <a href="mailto:contact@mowtiie.cc">email</a>. or find me on the platforms above. I read everything, eventually.
+        the easiest way is <a href="mailto:mowtiie.dev@gmail.com">email</a>. or find me on the platforms above. I read everything, eventually.
       </p>
     </section>
 
@@ -181,7 +158,7 @@
       <div class="pgp-card">
         <div class="pgp-row">
           <span class="pgp-label">fingerprint</span>
-          <code class="pgp-fingerprint">9EA2 8F46 7802 5092 7643  1B69 42B5 FA42 AA63 90E1</code>
+          <code class="pgp-fingerprint">9EA2 8F46 7802 5092 7643 1B69 42B5 FA42 AA63 90E1</code>
         </div>
         <div class="pgp-actions">
           <a href="./PGP_PUBLIC_KEY.asc" download class="pgp-link">download .asc →</a>
@@ -195,8 +172,6 @@
     <p>made with coffee and curiousity · ©<span id="year"></span></p>
   </footer>
 
-  <script src="projects.js"></script>
-  <script src="awards.js"></script>
   <script src="script.js"></script>
   <script type="module" src="voxel.js"></script>
 </body>
