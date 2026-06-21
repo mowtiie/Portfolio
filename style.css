@@ -1,3 +1,6 @@
+/* =========================
+   Tokens
+   ========================= */
 :root {
   --bg: #FAFAFA;
   --bg-soft: #F0F0F0;
@@ -32,6 +35,9 @@
   --border-soft: rgba(255, 255, 255, 0.15);
 }
 
+/* =========================
+   Reset
+   ========================= */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -62,6 +68,9 @@ ul { list-style: none; }
 
 img { display: block; max-width: 100%; }
 
+/* =========================
+   Layout
+   ========================= */
 .topbar {
   display: flex;
   align-items: center;
@@ -82,6 +91,9 @@ section {
   padding: var(--space-6) 0;
 }
 
+/* =========================
+   Top bar
+   ========================= */
 .logo {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -125,6 +137,36 @@ section {
 :root[data-theme="dark"] .theme-toggle .moon-icon { display: none; }
 :root[data-theme="dark"] .theme-toggle .sun-icon { display: block; }
 
+/* Grouping for theme + menu buttons on the right */
+.topbar-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Hamburger menu button — hidden on desktop, shown on mobile */
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition);
+}
+
+.menu-toggle:hover {
+  transform: scale(1.05);
+}
+
+.menu-toggle .close-icon { display: none; }
+.menu-toggle[aria-expanded="true"] .menu-icon { display: none; }
+.menu-toggle[aria-expanded="true"] .close-icon { display: block; }
+
+/* =========================
+   Hero
+   ========================= */
 .hero {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -259,6 +301,9 @@ section {
   cursor: grabbing;
 }
 
+/* =========================
+   Section title (shared)
+   ========================= */
 .section-title {
   position: relative;
   display: inline-block;
@@ -279,6 +324,9 @@ section {
   height: 8px;
 }
 
+/* =========================
+   About
+   ========================= */
 .about-content {
   max-width: 36rem;
   color: var(--text-soft);
@@ -293,6 +341,9 @@ section {
   color: var(--text);
 }
 
+/* =========================
+   Interests
+   ========================= */
 .interest-grid {
   display: flex;
   flex-wrap: wrap;
@@ -326,6 +377,9 @@ section {
   transform: rotate(-8deg) scale(1.08);
 }
 
+/* =========================
+   Projects
+   ========================= */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -398,6 +452,9 @@ section {
 
 .project-links a:hover { opacity: 0.65; }
 
+/* =========================
+   Awards & certs (sticky notes)
+   ========================= */
 .award-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -473,8 +530,12 @@ section {
 
 .award-verify:hover { opacity: 0.65; }
 
+/* First section on a sub-page should breathe a bit more */
 .first-section { padding-top: var(--space-4); }
 
+/* =========================
+   Verify (PGP)
+   ========================= */
 .verify-text {
   font-size: 1.0625rem;
   color: var(--text-soft);
@@ -531,6 +592,9 @@ section {
 
 .pgp-link:hover { opacity: 0.65; }
 
+/* =========================
+   Contact
+   ========================= */
 .contact-text {
   font-size: 1.0625rem;
   color: var(--text-soft);
@@ -545,6 +609,9 @@ section {
   text-decoration-thickness: 1px;
 }
 
+/* =========================
+   Footer
+   ========================= */
 .footer {
   border-top: 1px solid var(--border-soft);
   padding: var(--space-5) var(--space-4);
@@ -554,6 +621,9 @@ section {
   margin-top: var(--space-5);
 }
 
+/* =========================
+   Doodle draw-on animation
+   ========================= */
 .draw-path {
   stroke-dasharray: 1200;
   stroke-dashoffset: 1200;
@@ -567,6 +637,9 @@ section {
   to { stroke-dashoffset: 0; }
 }
 
+/* =========================
+   Focus styles
+   ========================= */
 a:focus-visible,
 button:focus-visible {
   outline: 2px dashed var(--text);
@@ -574,6 +647,9 @@ button:focus-visible {
   border-radius: var(--radius);
 }
 
+/* =========================
+   Reduced motion
+   ========================= */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
@@ -587,6 +663,9 @@ button:focus-visible {
   }
 }
 
+/* =========================
+   Mobile
+   ========================= */
 @media (max-width: 720px) {
   .hero {
     grid-template-columns: 1fr;
@@ -604,17 +683,51 @@ button:focus-visible {
   }
 
   .topbar {
-    flex-wrap: wrap;
-    row-gap: var(--space-3);
+    position: relative;
     padding-top: var(--space-3);
   }
 
+  .menu-toggle {
+    display: flex;
+  }
+
   .nav {
-    order: 3;
-    flex-basis: 100%;
-    justify-content: center;
-    gap: var(--space-4);
-    font-size: 0.9375rem;
+    position: absolute;
+    top: calc(100% + var(--space-1));
+    right: var(--space-4);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-width: 180px;
+    padding: var(--space-2);
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 4px 4px 0 var(--border);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    z-index: 20;
+  }
+
+  .nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .nav a {
+    padding: var(--space-2) var(--space-3);
+    font-size: 1rem;
+    color: var(--text);
+    border-radius: 4px;
+    transition: background var(--transition);
+  }
+
+  .nav a:hover,
+  .nav a:focus-visible {
+    background: var(--bg-soft);
   }
 
   section {

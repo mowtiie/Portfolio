@@ -15,6 +15,47 @@ if (toggle) {
   });
 }
 
+const menuToggle = document.getElementById('menu-toggle');
+const primaryNav = document.getElementById('primary-nav');
+
+if (menuToggle && primaryNav) {
+  const closeMenu = () => {
+    primaryNav.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open menu');
+  };
+
+  const openMenu = () => {
+    primaryNav.classList.add('open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Close menu');
+  };
+
+  menuToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = primaryNav.classList.contains('open');
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!primaryNav.classList.contains('open')) return;
+    if (!primaryNav.contains(e.target) && !menuToggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && primaryNav.classList.contains('open')) {
+      closeMenu();
+      menuToggle.focus();
+    }
+  });
+
+  primaryNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+}
+
 const grid = document.getElementById('project-grid');
 const projects = window.PROJECTS || [];
 
