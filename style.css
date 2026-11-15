@@ -706,7 +706,7 @@ main > section > :not(.section-title) {
   font-size: 0.8125rem;
   cursor: pointer;
 }
-/* Sticky notes: one for each project and each achievement. */
+/* Sticky notes: one for each project and each milestone. */
 .project-list,
 .note-list {
   display: grid;
