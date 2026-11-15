@@ -70,7 +70,7 @@
       <div class="filters">
         <div class="filter">
           <button type="button" class="pill" id="pill-platform" aria-expanded="false" aria-controls="menu-platform">
-            <span>Platform</span><span class="pill-count" hidden></span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span>Platform</span><span class="pill-count" hidden></span>
           </button>
           <div class="menu" id="menu-platform" role="group" aria-labelledby="pill-platform" hidden>
           <label class="menu-item"><input type="checkbox" data-group="platform" value="android-app"><span class="menu-label">Android app</span><span class="chip-count">15</span></label>
@@ -78,11 +78,12 @@
           <label class="menu-item"><input type="checkbox" data-group="platform" value="web-app"><span class="menu-label">Web app</span><span class="chip-count">2</span></label>
           <label class="menu-item"><input type="checkbox" data-group="platform" value="discord-bot"><span class="menu-label">Discord bot</span><span class="chip-count">1</span></label>
           <label class="menu-item"><input type="checkbox" data-group="platform" value="config"><span class="menu-label">Config</span><span class="chip-count">1</span></label>
+            <p class="menu-note" hidden></p>
           </div>
         </div>
         <div class="filter">
           <button type="button" class="pill" id="pill-language" aria-expanded="false" aria-controls="menu-language">
-            <span>Language</span><span class="pill-count" hidden></span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg><span>Language</span><span class="pill-count" hidden></span>
           </button>
           <div class="menu" id="menu-language" role="group" aria-labelledby="pill-language" hidden>
           <label class="menu-item"><input type="checkbox" data-group="language" value="java"><span class="menu-label">Java</span><span class="chip-count">12</span></label>
@@ -92,22 +93,17 @@
           <label class="menu-item"><input type="checkbox" data-group="language" value="c-sharp"><span class="menu-label">C#</span><span class="chip-count">1</span></label>
           <label class="menu-item"><input type="checkbox" data-group="language" value="javascript"><span class="menu-label">JavaScript</span><span class="chip-count">1</span></label>
           <label class="menu-item"><input type="checkbox" data-group="language" value="lua"><span class="menu-label">Lua</span><span class="chip-count">1</span></label>
+            <p class="menu-note" hidden></p>
           </div>
         </div>
-        <button type="button" class="pill pill-query" id="pill-query" aria-expanded="false" aria-controls="query-panel">Query</button>
         <button type="button" class="filter-reset" hidden>Clear filters</button>
+        <button type="button" class="pill pill-query" id="pill-query" aria-expanded="false" aria-controls="query-panel"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7l5 5-5 5M12 18h8"/></svg><span>Query</span></button>
         <div class="query-panel" id="query-panel" hidden>
-          <label class="query-label" for="query-input">Query the projects</label>
-          <input class="query-input" id="query-input" type="text" value="SELECT * FROM projects" spellcheck="false" autocomplete="off" autocapitalize="off" aria-invalid="false" data-error="query-error">
+          <label class="query-label" for="query-input">Query</label>
+          <textarea class="query-input" id="query-input" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off" aria-invalid="false" data-error="query-error">SELECT * FROM projects</textarea>
           <p class="query-error" id="query-error" role="status"></p>
-          <div class="query-help">
-            <p class="query-help-title">Fields</p>
-            <p class="query-fields"><code>name</code> <code>description</code> <code>platform</code> <code>language</code> <code>stars</code> <code>updated</code></p>
-            <p class="query-help-title">Operators</p>
-            <p class="query-fields"><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>LIKE</code> <code>IN</code> <code>AND</code> <code>OR</code> <code>NOT</code> <code>ORDER BY</code> <code>LIMIT</code></p>
-            <p class="query-note">Case doesn't matter, and <code>SELECT * FROM projects</code> is optional. A bare word searches names and descriptions. <code>%</code> in <code>LIKE</code> matches anything.</p>
-            <p class="query-help-title">Examples (press one to run it)</p>
-            <ul class="query-examples">
+          <p class="query-help-title" id="examples-title">Examples (press one to run it)</p>
+          <ul class="query-examples" role="group" aria-labelledby="examples-title">
             <li><button type="button" class="example"><code>platform = 'Android app' AND language = 'Kotlin'</code><span>Kotlin Android apps</span></button></li>
             <li><button type="button" class="example"><code>language IN ('Java', 'Kotlin') ORDER BY updated DESC</code><span>Java or Kotlin, newest first</span></button></li>
             <li><button type="button" class="example"><code>description LIKE '%offline%'</code><span>Anything offline-first</span></button></li>
@@ -116,8 +112,17 @@
             <li><button type="button" class="example"><code>platform != 'Android app' ORDER BY name</code><span>Everything except Android apps</span></button></li>
             <li><button type="button" class="example"><code>name LIKE 'f%'</code><span>Names starting with F</span></button></li>
             <li><button type="button" class="example"><code>kotlin</code><span>Just search for a word</span></button></li>
-            </ul>
-          </div>
+          </ul>
+          <details class="query-reference">
+            <summary>Reference</summary>
+            <p class="query-help-title">Fields</p>
+            <p class="query-fields"><code>name</code> <code>description</code> <code>platform</code> <code>language</code> <code>stars</code> <code>updated</code></p>
+            <p class="query-help-title">Operators</p>
+            <p class="query-fields"><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></p>
+            <p class="query-help-title">Keywords</p>
+            <p class="query-fields"><code>AND</code> <code>OR</code> <code>NOT</code> <code>IN</code> <code>LIKE</code> <code>ORDER BY</code> <code>LIMIT</code></p>
+            <p class="query-note">Case doesn't matter, and <code>SELECT * FROM projects</code> is optional. A bare word searches names and descriptions. <code>%</code> in <code>LIKE</code> matches anything.</p>
+          </details>
         </div>
       </div>
       <p class="filter-status" role="status">22 projects</p>

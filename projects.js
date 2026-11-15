@@ -381,7 +381,8 @@ if (filters) {
       // What this box would add, based on the other group's current choice.
       const count = customQuery ? totals.get(box) : rows.filter((row) => passes(row, group) && row[`${group}Slug`] === box.value).length;
       box.closest('.menu-item').querySelector('.chip-count').textContent = count;
-      box.disabled = !customQuery && count === 0 && !box.checked;
+      // With a custom query on, these options would replace it, so they wait until it is cleared.
+      box.disabled = customQuery || (count === 0 && !box.checked);
     }
 
     for (const filter of filterEls) {
@@ -391,6 +392,14 @@ if (filters) {
       pill.toggleAttribute('data-active', total > 0);
       badge.hidden = total === 0;
       badge.textContent = total;
+
+      // Say why options are greyed out.
+      const note = filter.querySelector('.menu-note');
+      const text = customQuery ? 'A custom query is on. Press Clear filters to use these options.'
+        : [...filter.querySelectorAll('input')].some((box) => box.disabled) ? 'Greyed options would show nothing with your other choice.'
+        : '';
+      note.textContent = text;
+      note.hidden = !text;
     }
 
     // With a single platform chosen, every note would show the same platform.
@@ -424,7 +433,16 @@ if (filters) {
 
   // ---------- Showing the result ----------
 
-  function applyQuery(parsed) {
+  // The count line is announced by screen readers, so while someone types it waits for a pause.
+  let statusTimer;
+
+  function setStatus(text, immediate) {
+    clearTimeout(statusTimer);
+    if (immediate) statusLine.textContent = text;
+    else statusTimer = setTimeout(() => { statusLine.textContent = text; }, 400);
+  }
+
+  function applyQuery(parsed, immediate = true) {
     query = parsed;
 
     const matched = rows.filter((row) => !parsed.where || test(row, parsed.where));
@@ -439,9 +457,13 @@ if (filters) {
 
     const narrowed = Boolean(parsed.where) || parsed.limit !== null;
     const changed = narrowed || parsed.order.length > 0;
-    statusLine.textContent = narrowed ? `showing ${shown.length} of ${rows.length} projects` : `${rows.length} projects`;
+    const suffix = customQuery ? ' (custom query)' : '';
+    setStatus(narrowed ? `showing ${shown.length} of ${rows.length} projects${suffix}` : `${rows.length} projects`, immediate);
     emptyState.hidden = shown.length > 0;
     resetButton.hidden = !changed;
+
+    // The pills can't show a custom query, a sort or a limit, so the Query pill does.
+    queryToggle.toggleAttribute('data-active', customQuery || parsed.order.length > 0 || parsed.limit !== null);
   }
 
   function saveToUrl(text) {
@@ -470,7 +492,7 @@ if (filters) {
   }
 
   // Runs the text in the query bar. A query that can't be read leaves the last good result in place.
-  function runQuery(text, { showErrorNow = false } = {}) {
+  function runQuery(text, { showErrorNow = false, immediate = true } = {}) {
     let parsed;
     try {
       parsed = parse(text);
@@ -482,8 +504,9 @@ if (filters) {
       return;
     }
     clearError();
-    applyQuery(parsed);
+    // The pills go first, because the count line mentions a custom query.
     syncPills(parsed);
+    applyQuery(parsed, immediate);
     saveToUrl(text);
   }
 
@@ -528,7 +551,11 @@ if (filters) {
     runQuery(queryInput.value);
   });
 
-  queryInput.addEventListener('input', () => runQuery(queryInput.value));
+  queryInput.addEventListener('input', () => {
+    // The box is one logical line, so a pasted line break becomes a space.
+    if (queryInput.value.includes('\n')) queryInput.value = queryInput.value.replace(/\s*\n\s*/g, ' ');
+    runQuery(queryInput.value, { immediate: false });
+  });
   queryInput.addEventListener('blur', () => runQuery(queryInput.value, { showErrorNow: true }));
   queryInput.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
@@ -538,12 +565,30 @@ if (filters) {
     runQuery(queryInput.value, { showErrorNow: true });
   });
 
-  // The sample queries.
+  // The sample queries. Running one closes the panel, so the result is what you see next.
   queryPanel.addEventListener('click', (event) => {
     const example = event.target.closest('.example');
     if (!example) return;
     queryInput.value = example.querySelector('code').textContent;
     runQuery(queryInput.value, { showErrorNow: true });
+    setQueryOpen(false);
+    queryToggle.focus();
+  });
+
+  // The examples are one tab stop, and the arrow keys move between them.
+  const examples = [...queryPanel.querySelectorAll('.example')];
+  for (const item of examples) item.tabIndex = -1;
+  if (examples[0]) examples[0].tabIndex = 0;
+
+  queryPanel.addEventListener('keydown', (event) => {
+    const current = examples.indexOf(event.target);
+    if (current === -1) return;
+    const moves = { ArrowRight: current + 1, ArrowDown: current + 1, ArrowLeft: current - 1, ArrowUp: current - 1, Home: 0, End: examples.length - 1 };
+    if (!(event.key in moves)) return;
+    event.preventDefault();
+    const target = examples[Math.min(Math.max(moves[event.key], 0), examples.length - 1)];
+    for (const item of examples) item.tabIndex = item === target ? 0 : -1;
+    target.focus();
   });
 
   emptyState.addEventListener('click', (event) => {
@@ -557,6 +602,14 @@ if (filters) {
 
   filters.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
+
+    // Escape closes the query panel and returns to its pill.
+    if (event.target.closest('.query-panel') && !queryPanel.hidden) {
+      setQueryOpen(false);
+      queryToggle.focus();
+      return;
+    }
+
     const filter = event.target.closest('.filter');
     if (!filter || filter.querySelector('.menu').hidden) return;
     setMenuOpen(filter, false);

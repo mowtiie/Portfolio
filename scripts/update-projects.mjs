@@ -40,6 +40,16 @@ const EXAMPLES = [
 
 const DEFAULT_QUERY = 'SELECT * FROM projects';
 
+// Small outline icons for the filter pills. They are decorative, so the label does the talking.
+const icon = (paths) =>
+  `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+const ICONS = {
+  platform: icon('<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>'),
+  language: icon('<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/>'),
+  query: icon('<path d="M4 7l5 5-5 5M12 18h8"/>'),
+};
+
 const escapeHtml = (text) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -98,10 +108,11 @@ function renderFilter(name, label, entries, labels) {
     .join('\n');
   return `        <div class="filter">
           <button type="button" class="pill" id="pill-${name}" aria-expanded="false" aria-controls="menu-${name}">
-            <span>${label}</span><span class="pill-count" hidden></span>
+            ${ICONS[name]}<span>${label}</span><span class="pill-count" hidden></span>
           </button>
           <div class="menu" id="menu-${name}" role="group" aria-labelledby="pill-${name}" hidden>
 ${items}
+            <p class="menu-note" hidden></p>
           </div>
         </div>`;
 }
@@ -113,23 +124,25 @@ function renderQueryPanel() {
       `            <li><button type="button" class="example"><code>${escapeHtml(query)}</code><span>${escapeHtml(note)}</span></button></li>`)
     .join('\n');
   return `        <div class="query-panel" id="query-panel" hidden>
-          <label class="query-label" for="query-input">Query the projects</label>
-          <input class="query-input" id="query-input" type="text" value="${DEFAULT_QUERY}" spellcheck="false" autocomplete="off" autocapitalize="off" aria-invalid="false" data-error="query-error">
+          <label class="query-label" for="query-input">Query</label>
+          <textarea class="query-input" id="query-input" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off" aria-invalid="false" data-error="query-error">${DEFAULT_QUERY}</textarea>
           <p class="query-error" id="query-error" role="status"></p>
-          <div class="query-help">
+          <p class="query-help-title" id="examples-title">Examples (press one to run it)</p>
+          <ul class="query-examples" role="group" aria-labelledby="examples-title">
+${examples}
+          </ul>
+          <details class="query-reference">
+            <summary>Reference</summary>
             <p class="query-help-title">Fields</p>
             <p class="query-fields"><code>name</code> <code>description</code> <code>platform</code> <code>language</code> <code>stars</code> <code>updated</code></p>
             <p class="query-help-title">Operators</p>
-            <p class="query-fields"><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>LIKE</code> <code>IN</code> <code>AND</code> <code>OR</code> <code>NOT</code> <code>ORDER BY</code> <code>LIMIT</code></p>
+            <p class="query-fields"><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></p>
+            <p class="query-help-title">Keywords</p>
+            <p class="query-fields"><code>AND</code> <code>OR</code> <code>NOT</code> <code>IN</code> <code>LIKE</code> <code>ORDER BY</code> <code>LIMIT</code></p>
             <p class="query-note">Case doesn't matter, and <code>SELECT * FROM projects</code> is optional. A bare word searches names and descriptions. <code>%</code> in <code>LIKE</code> matches anything.</p>
-            <p class="query-help-title">Examples (press one to run it)</p>
-            <ul class="query-examples">
-${examples}
-            </ul>
-          </div>
+          </details>
         </div>`;
 }
-
 function renderProjectsBlock(projects) {
   const labels = new Map();
   for (const { type, language, languageSlug } of projects) {
@@ -142,8 +155,8 @@ function renderProjectsBlock(projects) {
   return `<div class="filters">
 ${renderFilter('platform', 'Platform', platformEntries, labels)}
 ${renderFilter('language', 'Language', languageEntries, labels)}
-        <button type="button" class="pill pill-query" id="pill-query" aria-expanded="false" aria-controls="query-panel">Query</button>
         <button type="button" class="filter-reset" hidden>Clear filters</button>
+        <button type="button" class="pill pill-query" id="pill-query" aria-expanded="false" aria-controls="query-panel">${ICONS.query}<span>Query</span></button>
 ${renderQueryPanel()}
       </div>
       <p class="filter-status" role="status">${projects.length} projects</p>
