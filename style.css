@@ -1,27 +1,70 @@
 :root {
-  --bg: #E6E6E6;
-  --card-bg: #FAFAFA;
-  --divider: rgba(0, 0, 0, 0.08);
-  --text: #111111;
-  --text-soft: #6b6b6b;
-  --border: #1a1a1a;
-  --border-soft: rgba(0, 0, 0, 0.12);
-  --tag-bg: #ECECEC;
-  --tag-bg-hover: #E0E0E0;
-  --shadow-elev: 0 6px 16px rgba(0, 0, 0, 0.1);
+  /* Raw values per scheme */
+  --bg-light: #E6E6E6;            --bg-dark: #0A0A0A;
+  --card-bg-light: #FAFAFA;       --card-bg-dark: #171717;
+  --divider-light: rgba(0, 0, 0, 0.08);   --divider-dark: rgba(255, 255, 255, 0.08);
+  --text-light: #111111;          --text-dark: #FAFAFA;
+  --text-soft-light: #6b6b6b;     --text-soft-dark: #999999;
+  --border-light: #1a1a1a;        --border-dark: #FAFAFA;
+  --border-soft-light: rgba(0, 0, 0, 0.12); --border-soft-dark: rgba(255, 255, 255, 0.15);
+  --tag-bg-light: #ECECEC;        --tag-bg-dark: #232323;
+  --tag-bg-hover-light: #E0E0E0;  --tag-bg-hover-dark: #2E2E2E;
+  --shadow-elev-light: 0 6px 16px rgba(0, 0, 0, 0.1);
+  --shadow-elev-dark: 0 6px 16px rgba(0, 0, 0, 0.6);
+
+  /* Fallback for browsers without light-dark(): follow the system preference */
+  --bg: var(--bg-light);
+  --card-bg: var(--card-bg-light);
+  --divider: var(--divider-light);
+  --text: var(--text-light);
+  --text-soft: var(--text-soft-light);
+  --border: var(--border-light);
+  --border-soft: var(--border-soft-light);
+  --tag-bg: var(--tag-bg-light);
+  --tag-bg-hover: var(--tag-bg-hover-light);
+  --shadow-elev: var(--shadow-elev-light);
+
+  @media (prefers-color-scheme: dark) {
+    --bg: var(--bg-dark);
+    --card-bg: var(--card-bg-dark);
+    --divider: var(--divider-dark);
+    --text: var(--text-dark);
+    --text-soft: var(--text-soft-dark);
+    --border: var(--border-dark);
+    --border-soft: var(--border-soft-dark);
+    --tag-bg: var(--tag-bg-dark);
+    --tag-bg-hover: var(--tag-bg-hover-dark);
+    --shadow-elev: var(--shadow-elev-dark);
+  }
+
+  @supports (color: light-dark(white, black)) {
+    --bg: light-dark(var(--bg-light), var(--bg-dark));
+    --card-bg: light-dark(var(--card-bg-light), var(--card-bg-dark));
+    --divider: light-dark(var(--divider-light), var(--divider-dark));
+    --text: light-dark(var(--text-light), var(--text-dark));
+    --text-soft: light-dark(var(--text-soft-light), var(--text-soft-dark));
+    --border: light-dark(var(--border-light), var(--border-dark));
+    --border-soft: light-dark(var(--border-soft-light), var(--border-soft-dark));
+    --tag-bg: light-dark(var(--tag-bg-light), var(--tag-bg-dark));
+    --tag-bg-hover: light-dark(var(--tag-bg-hover-light), var(--tag-bg-hover-dark));
+    --shadow-elev: light-dark(var(--shadow-elev-light), var(--shadow-elev-dark));
+  }
+
+  /* Follow the system by default; the <meta name="color-scheme"> pins an override.
+     CSS color-scheme beats the meta hint, so map the meta back onto the property. */
+  color-scheme: light dark;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+  &:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
 }
 
-:root[data-theme="dark"] {
-  --bg: #0A0A0A;
-  --card-bg: #171717;
-  --divider: rgba(255, 255, 255, 0.08);
-  --text: #FAFAFA;
-  --text-soft: #999999;
-  --border: #FAFAFA;
-  --border-soft: rgba(255, 255, 255, 0.15);
-  --tag-bg: #232323;
-  --tag-bg-hover: #2E2E2E;
-  --shadow-elev: 0 6px 16px rgba(0, 0, 0, 0.6);
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -254,9 +297,22 @@ body {
   border-color: var(--border);
 }
 
-.theme-toggle .sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .moon { display: none; }
-:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+/* Show only the icon (and label) for the action available in the current scheme.
+   Branching must also honor the meta override, so the media query is combined with it. */
+.theme-toggle .if-light { display: inline-flex; }
+.theme-toggle .if-dark { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not(:has(> head > meta[name="color-scheme"][content="light"])) .theme-toggle {
+    .if-light { display: none; }
+    .if-dark { display: inline-flex; }
+  }
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle {
+  .if-light { display: none; }
+  .if-dark { display: inline-flex; }
+}
 
 /* ---------- Focus ---------- */
 a:focus-visible, button:focus-visible {
