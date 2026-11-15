@@ -9,7 +9,8 @@
 :root {
   /* Raw values per scheme */
   --bg-light: #E6E6E6;            --bg-dark: #0A0A0A;
-  --card-bg-light: #FAFAFA;       --card-bg-dark: #171717;
+  --card-bg-light: #FAFAFA;       --card-bg-dark: #1C1C1C;
+  --card-border-light: rgba(0, 0, 0, 0.16); --card-border-dark: rgba(255, 255, 255, 0.14);
   --divider-light: rgba(0, 0, 0, 0.08);   --divider-dark: rgba(255, 255, 255, 0.08);
   --text-light: #111111;          --text-dark: #FAFAFA;
   --text-soft-light: #6b6b6b;     --text-soft-dark: #999999;
@@ -23,6 +24,7 @@
   /* Fallback for browsers without light-dark(): follow the system preference */
   --bg: var(--bg-light);
   --card-bg: var(--card-bg-light);
+  --card-border: var(--card-border-light);
   --divider: var(--divider-light);
   --text: var(--text-light);
   --text-soft: var(--text-soft-light);
@@ -35,6 +37,7 @@
   @media (prefers-color-scheme: dark) {
     --bg: var(--bg-dark);
     --card-bg: var(--card-bg-dark);
+    --card-border: var(--card-border-dark);
     --divider: var(--divider-dark);
     --text: var(--text-dark);
     --text-soft: var(--text-soft-dark);
@@ -48,6 +51,7 @@
   @supports (color: light-dark(white, black)) {
     --bg: light-dark(var(--bg-light), var(--bg-dark));
     --card-bg: light-dark(var(--card-bg-light), var(--card-bg-dark));
+    --card-border: light-dark(var(--card-border-light), var(--card-border-dark));
     --divider: light-dark(var(--divider-light), var(--divider-dark));
     --text: light-dark(var(--text-light), var(--text-dark));
     --text-soft: light-dark(var(--text-soft-light), var(--text-soft-dark));
@@ -100,6 +104,8 @@ body {
   width: 100%;
   max-width: 620px;
   background: var(--card-bg);
+  /* A border keeps the card edge visible in forced-colors mode, where backgrounds are dropped. */
+  border: 1px solid var(--card-border);
   border-radius: 6px;
   overflow: hidden;
   transition: background 0.25s ease;
@@ -257,24 +263,25 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1rem;
-  border: 1px solid var(--border-soft);
+  /* Filled so the main action reads as primary. */
+  border: 1px solid var(--text);
   border-radius: 6px;
+  background: var(--text);
   text-decoration: none;
-  color: var(--text);
+  color: var(--card-bg);
   font-size: 0.875rem;
   font-family: inherit;
   white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cta-btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-elev);
-  border-color: var(--border);
 }
 
 .cta-arrow {
-  color: var(--text-soft);
+  opacity: 0.7;
   transition: transform 0.2s ease;
 }
 
