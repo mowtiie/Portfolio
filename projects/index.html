@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apps and tools built by Mowtiie: Android apps, desktop apps, a Discord bot and more. Filter by type or language.">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    // Lets the filter controls take up their space from the first paint, so nothing jumps.
+    document.documentElement.classList.add('js');
+    // Apply a stored override before first paint (prevents a flash of the wrong scheme).
+    try {
+      document.querySelector('meta[name="color-scheme"]').content = localStorage.getItem('color-scheme') ?? 'light dark';
+    } catch {}
+  </script>
+  <meta name="theme-color" content="#EFEFEF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0F0F0F" media="(prefers-color-scheme: dark)">
+  <title>Projects | Mowtiie</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mowtiie">
+  <meta property="og:title" content="Projects | Mowtiie">
+  <meta property="og:description" content="Apps and tools built by Mowtiie: Android apps, desktop apps, a Discord bot and more.">
+  <meta name="twitter:card" content="summary">
+
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="preload" href="/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="expect" href="#main" blocking="render">
+  <script src="/script.js" defer></script>
+  <script src="/projects.js" defer></script>
+
+  <script type="speculationrules">
+  {
+    "prefetch": [{ "where": { "and": [{ "href_matches": "/*" }, { "not": { "selector_matches": "[download]" } }] }, "eagerness": "eager" }],
+    "prerender": [{ "where": { "and": [{ "href_matches": "/*" }, { "not": { "selector_matches": "[download]" } }] }, "eagerness": "moderate" }]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header wrap">
+    <a class="site-brand" href="/">Mowtiie</a>
+    <div class="header-end">
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="/projects/" aria-current="page">projects</a></li>
+          <li><a href="/timeline/">timeline</a></li>
+          <li><a href="/achievements/">achievements</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button">
+        <span class="if-light">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span class="visually-hidden">Switch to dark theme</span>
+        </span>
+        <span class="if-dark">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <span class="visually-hidden">Switch to light theme</span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <h1 class="page-title page-title-compact">projects</h1>
+    <p class="lede">Everything I've built, kept like a logbook. It's pulled straight from my GitHub.</p>
+
+    <!-- projects:start -->
+      <div class="filters">
+        <div class="filter">
+          <button type="button" class="pill" id="pill-platform" aria-expanded="false" aria-controls="menu-platform">
+            <span>Platform</span><span class="pill-count" hidden></span>
+          </button>
+          <div class="menu" id="menu-platform" role="group" aria-labelledby="pill-platform" hidden>
+          <label class="menu-item"><input type="checkbox" data-group="platform" value="android-app"><span class="menu-label">Android app</span><span class="chip-count">15</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="platform" value="desktop-app"><span class="menu-label">Desktop app</span><span class="chip-count">3</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="platform" value="web-app"><span class="menu-label">Web app</span><span class="chip-count">2</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="platform" value="discord-bot"><span class="menu-label">Discord bot</span><span class="chip-count">1</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="platform" value="config"><span class="menu-label">Config</span><span class="chip-count">1</span></label>
+          </div>
+        </div>
+        <div class="filter">
+          <button type="button" class="pill" id="pill-language" aria-expanded="false" aria-controls="menu-language">
+            <span>Language</span><span class="pill-count" hidden></span>
+          </button>
+          <div class="menu" id="menu-language" role="group" aria-labelledby="pill-language" hidden>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="java"><span class="menu-label">Java</span><span class="chip-count">12</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="kotlin"><span class="menu-label">Kotlin</span><span class="chip-count">3</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="python"><span class="menu-label">Python</span><span class="chip-count">3</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="html"><span class="menu-label">HTML</span><span class="chip-count">1</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="c-sharp"><span class="menu-label">C#</span><span class="chip-count">1</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="javascript"><span class="menu-label">JavaScript</span><span class="chip-count">1</span></label>
+          <label class="menu-item"><input type="checkbox" data-group="language" value="lua"><span class="menu-label">Lua</span><span class="chip-count">1</span></label>
+          </div>
+        </div>
+        <button type="button" class="pill pill-query" id="pill-query" aria-expanded="false" aria-controls="query-panel">Query</button>
+        <button type="button" class="filter-reset" hidden>Clear filters</button>
+        <div class="query-panel" id="query-panel" hidden>
+          <label class="query-label" for="query-input">Query the projects</label>
+          <input class="query-input" id="query-input" type="text" value="SELECT * FROM projects" spellcheck="false" autocomplete="off" autocapitalize="off" aria-invalid="false" data-error="query-error">
+          <p class="query-error" id="query-error" role="status"></p>
+          <div class="query-help">
+            <p class="query-help-title">Fields</p>
+            <p class="query-fields"><code>name</code> <code>description</code> <code>platform</code> <code>language</code> <code>stars</code> <code>updated</code></p>
+            <p class="query-help-title">Operators</p>
+            <p class="query-fields"><code>=</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>LIKE</code> <code>IN</code> <code>AND</code> <code>OR</code> <code>NOT</code> <code>ORDER BY</code> <code>LIMIT</code></p>
+            <p class="query-note">Case doesn't matter, and <code>SELECT * FROM projects</code> is optional. A bare word searches names and descriptions. <code>%</code> in <code>LIKE</code> matches anything.</p>
+            <p class="query-help-title">Examples (press one to run it)</p>
+            <ul class="query-examples">
+            <li><button type="button" class="example"><code>platform = 'Android app' AND language = 'Kotlin'</code><span>Kotlin Android apps</span></button></li>
+            <li><button type="button" class="example"><code>language IN ('Java', 'Kotlin') ORDER BY updated DESC</code><span>Java or Kotlin, newest first</span></button></li>
+            <li><button type="button" class="example"><code>description LIKE '%offline%'</code><span>Anything offline-first</span></button></li>
+            <li><button type="button" class="example"><code>stars &gt; 0 ORDER BY stars DESC</code><span>Projects with stars</span></button></li>
+            <li><button type="button" class="example"><code>SELECT * FROM projects ORDER BY updated DESC LIMIT 5</code><span>The five most recent</span></button></li>
+            <li><button type="button" class="example"><code>platform != 'Android app' ORDER BY name</code><span>Everything except Android apps</span></button></li>
+            <li><button type="button" class="example"><code>name LIKE 'f%'</code><span>Names starting with F</span></button></li>
+            <li><button type="button" class="example"><code>kotlin</code><span>Just search for a word</span></button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="filter-status" role="status">22 projects</p>
+      <p class="filter-empty" hidden>No projects match those filters. <button type="button" class="filter-clear">Clear filters</button></p>
+      <ul class="project-list">
+      <li class="project note" data-platform="android-app" data-language="kotlin">
+        <a class="project-name" href="https://github.com/mowtiie/Mesgard" target="_blank" rel="noopener">Mesgard<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Real-time messaging for schools and institutions. Android app on a self-hostable Supabase backend.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Kotlin</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-14">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="discord-bot" data-language="python">
+        <a class="project-name" href="https://github.com/mowtiie/Harriet" target="_blank" rel="noopener">Harriet<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">My personal Discord bot for learning discord.py and for personal use in my Discord server.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Discord bot</span>
+          <span class="meta-language">Python</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-14">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="web-app" data-language="html">
+        <a class="project-name" href="https://github.com/mowtiie/CheckMate" target="_blank" rel="noopener">CheckMate<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">My finals project task for Web Systems and Technologies subject. A simple task manager for creating and tracking tasks, built with ASP.NET Core and Bootstrap.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Web app</span>
+          <span class="meta-language">HTML</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-13">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Keyheimer" target="_blank" rel="noopener">Keyheimer<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">A free and open-source secret passphrase reminder for Android.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-04">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="kotlin">
+        <a class="project-name" href="https://github.com/mowtiie/Flashback" target="_blank" rel="noopener">Flashback<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Free, open-source, offline-first flashcard app for Android.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Kotlin</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-03">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="kotlin">
+        <a class="project-name" href="https://github.com/mowtiie/Writa" target="_blank" rel="noopener">Writa<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Offline-first Android notes app (Kotlin, Compose, Material 3) that syncs to your own Supabase project.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Kotlin</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-02">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/IReport" target="_blank" rel="noopener">IReport<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Android app for reporting community issues like damaged roads, trash and broken streetlights, with resident, admin and field worker roles.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-11-02">nov 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/DueIt" target="_blank" rel="noopener">DueIt<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">DueIt is a native Android app, written in Java, that helps students keep track of their courses and assignment deadlines. It has local accounts, a Material Design UI, and due-date notifications.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-28">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Dearest" target="_blank" rel="noopener">Dearest<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">A free and open-source offline journaling application for Android.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-28">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="desktop-app" data-language="c-sharp">
+        <a class="project-name" href="https://github.com/mowtiie/Saleling" target="_blank" rel="noopener">Saleling<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">A Sales and Inventory Management System Windows Forms Application</p>
+        <p class="project-meta">
+          <span class="meta-platform">Desktop app</span>
+          <span class="meta-language">C#</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-27">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/FeedIt" target="_blank" rel="noopener">FeedIt<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">A free and open-source RSS Feed application for Android.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-26">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/EasyBank" target="_blank" rel="noopener">EasyBank<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Simulated mobile banking app for Android: check balances, deposit, withdraw, transfer funds, pay bills, and view history and alerts, all backed by local SQLite. Built with Java and Material 3.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-26">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/ReadMe" target="_blank" rel="noopener">ReadMe<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Offline Android library app: browse, search, check out and return books. Java + SQLite, Material 3.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-26">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/HubStock" target="_blank" rel="noopener">HubStock<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Simulated Android warehouse logistics app with stock requests, hub approval, delivery scheduling and branch receiving.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-26">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Ticketree" target="_blank" rel="noopener">Ticketree<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Simulated Android event ticketing app with seat selection, QR tickets and an organizer dashboard. Built for a hackathon.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-26">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Faithfully-App" target="_blank" rel="noopener">Faithfully-App<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">The Android application for the Faithfully system.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-25">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="web-app" data-language="javascript">
+        <a class="project-name" href="https://github.com/mowtiie/Faithfully-Web" target="_blank" rel="noopener">Faithfully-Web<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">The website for the Faithfully system.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Web app</span>
+          <span class="meta-language">JavaScript</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-25">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="desktop-app" data-language="python">
+        <a class="project-name" href="https://github.com/mowtiie/Picsheaf" target="_blank" rel="noopener">Picsheaf<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Combine images into a single PDF on Linux: a GTK4/libadwaita desktop app.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Desktop app</span>
+          <span class="meta-language">Python</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-10-10">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="desktop-app" data-language="python">
+        <a class="project-name" href="https://github.com/mowtiie/Resonate" target="_blank" rel="noopener">Resonate<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">Native GTK4 audio converter for Linux with tag editing, cover art and bundled ffmpeg.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Desktop app</span>
+          <span class="meta-language">Python</span>
+          <span class="meta-stars">1 star</span>
+          <time class="meta-date" datetime="2026-10-02">oct 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Centsation" target="_blank" rel="noopener">Centsation<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">A free and open-source offline savings-tracker application for Android.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars is-starred">22 stars</span>
+          <time class="meta-date" datetime="2026-07-03">jul 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="android-app" data-language="java">
+        <a class="project-name" href="https://github.com/mowtiie/Faithful" target="_blank" rel="noopener">Faithful<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">An offline-first and open-source Android application for someone who experience short-term memory or high cognitive load.</p>
+        <p class="project-meta">
+          <span class="meta-platform">Android app</span>
+          <span class="meta-language">Java</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2026-06-11">jun 2026</time>
+        </p>
+      </li>
+      <li class="project note" data-platform="config" data-language="lua">
+        <a class="project-name" href="https://github.com/mowtiie/Neovim-Config" target="_blank" rel="noopener">Neovim-Config<span class="visually-hidden"> (opens in a new tab)</span></a>
+        <p class="project-desc">This is my personal configuration for Neovim</p>
+        <p class="project-meta">
+          <span class="meta-platform">Config</span>
+          <span class="meta-language">Lua</span>
+          <span class="meta-stars"></span>
+          <time class="meta-date" datetime="2025-11-08">nov 2025</time>
+        </p>
+      </li>
+      </ul>
+      <!-- projects:end -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p>&copy; 2026 Mowtiie</p>
+      <p class="footer-links">
+        <a href="https://github.com/mowtiie/Portfolio" target="_blank" rel="noopener">view the source<span class="visually-hidden"> (opens in a new tab)</span></a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

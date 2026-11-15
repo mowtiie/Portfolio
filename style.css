@@ -1,61 +1,63 @@
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2');
+  src: url('/fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2');
   font-weight: 100 800;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Pages fade into each other while the header stays put. Skipped for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  .site-header { view-transition-name: site-header; }
+
+  ::view-transition-old(root) { animation: 0.15s ease-in both fade-out; }
+  ::view-transition-new(root) { animation: 0.3s ease-out both page-in; }
+
+  @keyframes fade-out { to { opacity: 0; } }
+  @keyframes page-in { from { opacity: 0; transform: translateY(0.5rem); } }
+}
+
 :root {
   /* Raw values per scheme */
-  --bg-light: #E6E6E6;            --bg-dark: #0A0A0A;
-  --card-bg-light: #FAFAFA;       --card-bg-dark: #1C1C1C;
-  --card-border-light: rgba(0, 0, 0, 0.16); --card-border-dark: rgba(255, 255, 255, 0.14);
-  --divider-light: rgba(0, 0, 0, 0.12);   --divider-dark: rgba(255, 255, 255, 0.12);
-  --text-light: #111111;          --text-dark: #FAFAFA;
-  --text-soft-light: #6b6b6b;     --text-soft-dark: #999999;
-  --border-light: #1a1a1a;        --border-dark: #FAFAFA;
-  --border-soft-light: rgba(0, 0, 0, 0.12); --border-soft-dark: rgba(255, 255, 255, 0.15);
-  --tag-bg-light: #ECECEC;        --tag-bg-dark: #232323;
-  --shadow-elev-light: 0 6px 16px rgba(0, 0, 0, 0.1);
-  --shadow-elev-dark: 0 6px 16px rgba(0, 0, 0, 0.6);
+  --bg-light: #EFEFEF;             --bg-dark: #0F0F0F;
+  --surface-light: #E4E4E4;        --surface-dark: #1A1A1A;
+  --note-light: #FBFBFB;           --note-dark: #1F1F1F;
+  --text-light: #1B1B1B;           --text-dark: #EDEDED;
+  --text-soft-light: #5E5E5E;      --text-soft-dark: #A0A0A0;
+  --rule-light: rgba(0, 0, 0, 0.4); --rule-dark: rgba(255, 255, 255, 0.35);
+  --border-light: rgba(0, 0, 0, 0.55); --border-dark: rgba(255, 255, 255, 0.5);
 
   /* Fallback for browsers without light-dark(): follow the system preference */
   --bg: var(--bg-light);
-  --card-bg: var(--card-bg-light);
-  --card-border: var(--card-border-light);
-  --divider: var(--divider-light);
+  --surface: var(--surface-light);
+  --note: var(--note-light);
   --text: var(--text-light);
   --text-soft: var(--text-soft-light);
+  --rule: var(--rule-light);
   --border: var(--border-light);
-  --border-soft: var(--border-soft-light);
-  --tag-bg: var(--tag-bg-light);
-  --shadow-elev: var(--shadow-elev-light);
 
   @media (prefers-color-scheme: dark) {
     --bg: var(--bg-dark);
-    --card-bg: var(--card-bg-dark);
-    --card-border: var(--card-border-dark);
-    --divider: var(--divider-dark);
+    --surface: var(--surface-dark);
+    --note: var(--note-dark);
     --text: var(--text-dark);
     --text-soft: var(--text-soft-dark);
+    --rule: var(--rule-dark);
     --border: var(--border-dark);
-    --border-soft: var(--border-soft-dark);
-    --tag-bg: var(--tag-bg-dark);
-    --shadow-elev: var(--shadow-elev-dark);
   }
 
   @supports (color: light-dark(white, black)) {
     --bg: light-dark(var(--bg-light), var(--bg-dark));
-    --card-bg: light-dark(var(--card-bg-light), var(--card-bg-dark));
-    --card-border: light-dark(var(--card-border-light), var(--card-border-dark));
-    --divider: light-dark(var(--divider-light), var(--divider-dark));
+    --surface: light-dark(var(--surface-light), var(--surface-dark));
+    --note: light-dark(var(--note-light), var(--note-dark));
     --text: light-dark(var(--text-light), var(--text-dark));
     --text-soft: light-dark(var(--text-soft-light), var(--text-soft-dark));
+    --rule: light-dark(var(--rule-light), var(--rule-dark));
     --border: light-dark(var(--border-light), var(--border-dark));
-    --border-soft: light-dark(var(--border-soft-light), var(--border-soft-dark));
-    --tag-bg: light-dark(var(--tag-bg-light), var(--tag-bg-dark));
-    --shadow-elev: light-dark(var(--shadow-elev-light), var(--shadow-elev-dark));
   }
 
   /* Follow the system by default; the <meta name="color-scheme"> pins an override.
@@ -79,7 +81,12 @@
 * { margin: 0; padding: 0; }
 
 body {
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  /* Width of the left margin that holds section titles. */
+  --label-col: 12rem;
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   color: var(--text);
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -87,232 +94,90 @@ body {
   font-size-adjust: ch-width from-font;
   font-size: 0.9375rem;
   line-height: 1.6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.25rem 4rem;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.card {
-  width: 100%;
-  max-width: 620px;
-  background: var(--card-bg);
-  /* A border keeps the card edge visible in forced-colors mode, where backgrounds are dropped. */
-  border: 1px solid var(--card-border);
-  border-radius: 6px;
-  overflow: hidden;
-  transition: background 0.25s ease;
+.wrap {
+  width: min(100% - 2 * var(--gutter), 100rem);
+  margin-inline: auto;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.3em;
+}
+
+a:hover {
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1px;
+}
+
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* ---------- Header ---------- */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem 2rem 1.75rem;
-}
-
-.header-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.name {
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.375rem;
-  overflow-wrap: anywhere;
-}
-
-.subtitle {
-  font-size: 0.875rem;
-  color: var(--text-soft);
-  text-wrap: balance;
-}
-
-.header-photo {
-  width: 96px;
-  height: 96px;
-  border-radius: 8px;
-  background: var(--tag-bg);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.header-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ---------- Card sections ---------- */
-.card-section {
-  padding: 1.75rem 2rem;
-  border-top: 1px solid var(--divider);
-}
-
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.875rem;
-}
-
-.section-body {
-  font-size: 0.9375rem;
-  color: var(--text-soft);
-  margin-bottom: 1.25rem;
-  text-wrap: pretty;
-}
-
-/* Tags */
-.tag-list {
+.site-header {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  list-style: none;
-}
-
-.tag {
-  padding: 0.5rem 0.875rem;
-  background: var(--tag-bg);
-  /* Invisible normally; forced-colors mode turns it into a visible border. */
-  border: 1px solid transparent;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  color: var(--text);
-  font-family: inherit;
-}
-
-/* PGP */
-.pgp-block {
-  border: 1px solid var(--border-soft);
-  border-radius: 6px;
-  padding: 0.875rem 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.pgp-label {
-  font-size: 0.75rem;
-  color: var(--text-soft);
-  margin-bottom: 0.5rem;
-}
-
-.pgp-fingerprint {
-  font-family: inherit;
-  font-size: 0.75rem;
-  color: var(--text);
-  word-break: break-all;
-  user-select: all;
-  line-height: 1.5;
-  display: block;
-}
-
-.download-link {
-  display: inline-block;
-  font-size: 0.8125rem;
-  color: var(--text-soft);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-.download-link:hover {
-  color: var(--text);
-}
-
-/* ---------- Footer ---------- */
-.card-footer {
-  display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.25rem 2rem;
-  border-top: 1px solid var(--divider);
+  gap: 0.5rem 1.5rem;
+  padding-block: 1.5rem;
 }
 
-.social-list {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  list-style: none;
-  /* Offset the icon padding so the first icon lines up with the card's text edge. */
-  margin-inline-start: -0.5rem;
-}
-
-.social-icon {
-  color: var(--text);
-  opacity: 0.7;
-  /* 18px icon + padding gives a ~34px touch target (WCAG 2.5.8 minimum is 24px). */
-  padding: 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.15s ease;
-}
-
-.social-icon:hover {
-  opacity: 1;
-}
-
-.cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  /* Filled so the main action reads as primary. */
-  border: 1px solid var(--text);
-  border-radius: 6px;
-  background: var(--text);
+.site-brand {
+  font-weight: 600;
+  font-size: 1.0625rem;
   text-decoration: none;
-  color: var(--card-bg);
-  font-size: 0.875rem;
-  font-family: inherit;
-  white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-elev);
-}
-
-.cta-arrow {
-  opacity: 0.7;
-  transition: transform 0.2s ease;
-}
-
-.cta-btn:hover .cta-arrow {
-  transform: translateX(2px);
-}
-
-/* ---------- Theme toggle (floating) ---------- */
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border-soft);
-  background: var(--card-bg);
-  color: var(--text);
-  cursor: pointer;
+.header-end {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.25s ease, color 0.25s ease, border-color 0.2s ease;
+  gap: 1.25rem;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-elev);
-  border-color: var(--border);
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  list-style: none;
+}
+
+/* The wavy underline fades in on hover and stays on the current page.
+   The current page is marked by a line, so it never relies on color alone. */
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  text-decoration: underline wavy;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  text-decoration-color: currentColor;
+}
+
+.theme-toggle {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
 }
 
 /* Show only the icon (and label) for the action available in the current scheme.
@@ -332,58 +197,777 @@ body {
   .if-dark { display: inline-flex; }
 }
 
-/* ---------- Focus ---------- */
-a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 3px;
+/* ---------- Page content ---------- */
+main {
+  flex: 1;
+  padding-bottom: 3rem;
+}
+
+/* Inner pages read as one centered column. The home page lays out its own sections. */
+body:not(.home) main.wrap {
+  width: min(100% - 2 * var(--gutter), 72rem);
+}
+
+/* Titles scale with the screen; the minimum and maximum stay within 2.5x. */
+.page-title {
+  font-size: clamp(2.5rem, 1rem + 6vw, 5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+/* Utility pages (like the project list) get a quieter title so the content starts sooner. */
+.page-title-compact {
+  font-size: clamp(2rem, 1rem + 3vw, 3rem);
+}
+
+.hero-title {
+  font-size: clamp(3rem, 1rem + 10vw, 7.5rem);
+  margin-bottom: 0;
+}
+
+.lede {
+  max-width: 60ch;
+  color: var(--text-soft);
+  margin-bottom: 3rem;
+  text-wrap: pretty;
+}
+
+/* Sections: the title sits in a left margin, the content beside it.
+   Sections are separated by a stitched line. */
+main > section {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--label-col) minmax(0, 1fr);
+  column-gap: 2rem;
+  margin-top: 4rem;
+  padding-top: 2rem;
+}
+
+/* The stitched line is a pseudo-element, so it can be drawn in on scroll. */
+main > section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--rule) 0 6px, transparent 6px 10px);
+  transform-origin: left;
+}
+
+main > section > :not(.section-title) {
+  grid-column: 2;
+}
+
+.section-title {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  align-self: start;
+  position: sticky;
+  top: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Dotted line that fills the space between a project name and its details. */
+.leader {
+  flex: 1 1 1rem;
+  min-width: 1rem;
+  align-self: flex-end;
+  margin-bottom: 0.4em;
+  border-bottom: 1px dotted var(--text-soft);
+}
+
+/* ---------- Intro ---------- */
+.intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.intro-text { min-width: 0; }
+
+.subtitle {
+  font-size: 1.0625rem;
+  color: var(--text-soft);
+  text-wrap: balance;
+}
+
+/* A little taped-on photo. */
+.photo {
+  flex-shrink: 0;
+  width: clamp(6.5rem, 14vw, 10rem);
+  padding: 0.4rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  rotate: 2deg;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.intro-about {
+  max-width: 60ch;
+  margin-top: 3rem;
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+.intro-cta { margin-top: 1.5rem; }
+
+/* ---------- Timeline ---------- */
+/* A stitched thread runs down the page, with an entry hanging off it at each dot. */
+.timeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: 1.75rem;
+  list-style: none;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.5rem 0;
+  inset-inline-start: 0.375rem;
+  border-inline-start: 1px dashed var(--border);
+  /* The thread fades out at the bottom, because the story isn't finished. */
+  mask-image: linear-gradient(to bottom, #000 80%, transparent);
+}
+
+.timeline li {
+  position: relative;
+  padding-block-end: 2.5rem;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.45rem;
+  inset-inline-start: -1.75rem;
+  width: 0.75rem;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--text);
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+/* Where I am now: a filled dot with a ring. */
+.timeline li.is-now::before {
+  background: var(--text);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px var(--border);
+}
+
+/* The date is a little stamp above each entry. */
+.timeline-date {
+  display: inline-block;
+  margin-bottom: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+}
+
+.is-now .timeline-date {
+  border-style: solid;
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--bg);
+}
+
+.timeline-title { font-weight: 600; }
+
+.timeline-text {
+  max-width: 44ch;
+  color: var(--text-soft);
+  font-size: 0.875rem;
+  text-wrap: pretty;
+}
+
+/* On wide screens the thread runs down the middle and entries swap sides. */
+@media (min-width: 50em) {
+  .timeline { padding-inline-start: 0; }
+  .timeline::before { inset-inline-start: 50%; }
+
+  .timeline li { width: 50%; }
+
+  .timeline li:nth-child(odd) {
+    align-self: flex-start;
+    padding-inline-end: 2.5rem;
+    text-align: end;
+  }
+
+  .timeline li:nth-child(even) {
+    align-self: flex-end;
+    padding-inline-start: 2.5rem;
+  }
+
+  .timeline li:nth-child(odd)::before { inset-inline: auto -0.375rem; }
+  .timeline li:nth-child(even)::before { inset-inline: -0.375rem auto; }
+
+  .timeline li:nth-child(odd) .timeline-text { margin-inline-start: auto; }
+}
+
+/* The timeline page is centered, so the title and intro line up with the thread. */
+.timeline-page main > .page-title,
+.timeline-page main > .lede {
+  margin-inline: auto;
+  text-align: center;
+}
+/* ---------- Projects ---------- */
+/* The controls only work with JavaScript, so they only take up space once it is available.
+   The page sets the "js" class before first paint, so nothing jumps when the script loads. */
+.filters,
+.filter-status { display: none; }
+
+.js .filters {
+  /* Sits above the tilted notes, so an open menu is never covered. */
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.js .filter-status { display: block; }
+
+.filter { position: relative; }
+
+/* Dropdown pills: Platform and Language. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+/* The little arrow. */
+.pill::after {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  rotate: 45deg;
+  translate: 0 -0.1rem;
+}
+
+.pill[aria-expanded="true"]::after {
+  rotate: -135deg;
+  translate: 0 0.1rem;
+}
+
+.pill:hover { background: var(--surface); }
+
+/* Something is chosen in this menu. */
+.pill[data-active],
+.pill[data-active]:hover {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
+.pill-count {
+  min-width: 1.25rem;
+  padding-inline: 0.25rem;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.6875rem;
+  line-height: 1.25rem;
+  text-align: center;
+}
+
+/* The checkbox menu under a pill. It is a plain list of options, not an application menu. */
+.menu {
+  position: absolute;
+  inset-block-start: calc(100% + 0.375rem);
+  inset-inline-start: 0;
+  z-index: 3;
+  inline-size: max-content;
+  min-inline-size: 15rem;
+  max-block-size: min(22rem, 60dvh);
+  overflow-y: auto;
+  padding: 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--note);
+  box-shadow: 2px 3px 0 var(--rule);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  /* A comfortable tap target. */
+  min-block-size: 2.75rem;
+  padding-inline: 0.625rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.menu-item:hover { background: var(--surface); }
+
+.menu-item input {
+  inline-size: 1.125em;
+  aspect-ratio: 1;
+  margin: 0;
+  accent-color: var(--text);
+  cursor: pointer;
+}
+
+.menu-label { flex: 1; }
+
+.chip-count {
+  color: var(--text-soft);
+  font-size: 0.8125rem;
+}
+
+/* An option that would show nothing, given the other filter. */
+.menu-item:has(input:disabled) {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.menu-item input:disabled { cursor: not-allowed; }
+
+.filter-status {
+  margin-bottom: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-soft);
+}
+
+.filter-empty {
+  margin: 1rem 0;
+  color: var(--text-soft);
+}
+
+.filter-clear,
+.filter-reset {
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  cursor: pointer;
+}
+/* The query bar: a line to type a query, a short reference and some examples to start from. */
+.query-panel {
+  flex-basis: 100%;
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  background: var(--note);
+}
+
+.query-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  color: var(--text-soft);
+  font-size: 0.8125rem;
+}
+
+.query-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
   border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.875rem;
 }
 
-/* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+/* A query that can't be read gets a dashed edge as well as the message, so it isn't only a color. */
+.query-input[aria-invalid="true"] {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+/* The message line always takes up its space, so the page doesn't move when an error appears. */
+.query-error {
+  min-height: 1.5rem;
+  margin-top: 0.375rem;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.query-help { margin-top: 0.5rem; }
+
+.query-help-title {
+  margin-top: 0.75rem;
+  color: var(--text-soft);
+  font-size: 0.75rem;
+}
+
+.query-fields,
+.query-note {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+}
+
+.query-note {
+  max-width: 60ch;
+  color: var(--text-soft);
+}
+
+.query-panel code {
+  padding: 0.0625rem 0.375rem;
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: inherit;
+}
+
+.query-examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 0.5rem;
+  margin-top: 0.375rem;
+  list-style: none;
+}
+
+.example {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.example:hover { background: var(--surface); }
+
+.example code {
+  padding: 0;
+  background: none;
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+}
+
+.example span {
+  color: var(--text-soft);
+  font-size: 0.75rem;
+}
+/* Sticky notes: one for each project and each achievement. */
+.project-list,
+.note-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 2rem 1.5rem;
+  /* Room for the tape that sticks out above the first row. */
+  padding-top: 0.75rem;
+  list-style: none;
+}
+
+.note {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.25rem 1.125rem 1rem;
+  border: 1px solid var(--rule);
+  background: var(--note);
+  box-shadow: 2px 3px 0 var(--rule);
+}
+
+/* A strip of tape holding the note up. */
+.note::before {
+  content: "";
+  position: absolute;
+  top: -0.6rem;
+  left: 50%;
+  width: 3.5rem;
+  height: 1.1rem;
+  translate: -50% 0;
+  rotate: -3deg;
+  background: var(--rule);
+}
+
+/* Each note sits at its own slight angle, like they were stuck on by hand. */
+.note:nth-child(4n + 1) { rotate: -0.8deg; }
+.note:nth-child(4n + 2) { rotate: 0.6deg; }
+.note:nth-child(4n + 3) { rotate: -0.3deg; }
+.note:nth-child(4n + 4) { rotate: 0.9deg; }
+
+.project-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.project-desc {
+  font-size: 0.875rem;
+  text-wrap: pretty;
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 0.75rem;
+  /* Pushes the details to the bottom edge, so notes in a row line up. */
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-soft);
+}
+
+.meta-language:empty,
+.meta-stars:empty { display: none; }
+
+.meta-stars.is-starred {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* With a single platform chosen, every note would show the same platform. */
+.project-list[data-platform-filtered] .meta-platform { display: none; }
+
+.note-date {
+  color: var(--text-soft);
+  font-size: 0.75rem;
+}
+
+.note-title { font-weight: 600; }
+
+.note-text {
+  color: var(--text-soft);
+  font-size: 0.875rem;
+  text-wrap: pretty;
+}
+/* Hidden by the filter; keeps the rule from being beaten by display values above. */
+.project[hidden] { display: none; }
+
+/* ---------- Contact ---------- */
+.contact-intro p {
+  max-width: 34ch;
+  margin-bottom: 1.5rem;
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+/* Each way to reach me is a row: a label, a dotted line, then the link. */
+.contact-rows { list-style: none; }
+
+.contact-rows li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+}
+
+.contact-label {
+  color: var(--text-soft);
+  font-size: 0.8125rem;
+}
+
+.contact-rows a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--text);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+}
+
+.button:hover { text-decoration: underline; text-decoration-style: wavy; text-decoration-thickness: 1px; }
+
+/* Quiet on purpose: few visitors need it, so no box. */
+.pgp {
+  max-width: 32rem;
+  margin-top: 2.5rem;
+}
+
+.pgp-label {
+  font-size: 0.75rem;
+  color: var(--text-soft);
+  margin-bottom: 0.5rem;
+}
+
+.pgp-fingerprint {
+  display: block;
+  font-family: inherit;
+  font-size: 0.75rem;
+  word-break: break-all;
+  user-select: all;
+  line-height: 1.5;
+}
+
+.pgp-download {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* ---------- Home: everything is centered ---------- */
+.home main { text-align: center; }
+
+.home .intro {
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.home .intro-about { margin-inline: auto; }
+
+/* Sections stack their title above the content, in one centered column. */
+.home main > section {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.home main > section > :not(.section-title) { grid-column: 1; }
+
+.home .section-title {
+  grid-row: auto;
+  position: static;
+}
+
+/* Contact breaks from the centered flow: two columns, text aligned to the start. */
+.home #contact {
+  max-width: 56rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  column-gap: 3rem;
+  align-items: start;
+  text-align: start;
+}
+
+.home #contact > * { grid-column: auto; }
+
+.home #contact .pgp {
+  grid-column: 1 / -1;
+  max-width: none;
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px dotted var(--rule);
+}
+
+
+/* The hero already says the name, so the header only needs the nav. */
+.home .site-brand { display: none; }
+.home .site-header { justify-content: flex-end; }
+
+/* ---------- Footer ---------- */
+/* A solid line marks the edge of the page's content; dashed and dotted lines sit inside it. */
+.site-footer {
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--rule);
+  color: var(--text-soft);
+  font-size: 0.8125rem;
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 1.5rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+}
+
+/* ---------- Motion ----------
+   Everything here is decorative and opt-in: with reduced motion the page is simply static.
+   Only transform and opacity are animated, so it stays off the main thread. */
+@media (prefers-reduced-motion: no-preference) {
+  /* One load-in moment: the home hero eases in, one piece after another. */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(0.75rem); }
+  }
+
+  .intro-text .hero-title,
+  .intro-text .subtitle,
+  .intro .photo {
+    animation: rise 0.5s ease-out backwards;
+  }
+
+  .intro-text .subtitle { animation-delay: 0.08s; }
+  .intro .photo { animation-delay: 0.16s; }
+
+  /* A note lifts and straightens a little when you point at it. */
+  .note { transition: translate 0.2s ease, rotate 0.2s ease; }
+  .note:hover { translate: 0 -3px; rotate: 0deg; }
+
+  /* The taped-on photo gets nudged on hover. */
+  .photo { transition: rotate 0.3s ease; }
+  .photo:hover { rotate: -1deg; }
+
+  /* Stitched lines draw in as you scroll. */
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes line-draw {
+      from { transform: scaleX(0); }
+    }
+
+    main > section { view-timeline: --section block; }
+
+    main > section::before {
+      animation: line-draw auto linear backwards;
+      animation-timeline: --section;
+      animation-range: entry 0% entry 50%;
+    }
   }
 }
 
-/* ---------- Mobile ---------- */
+/* ---------- Small screens ---------- */
+@media (max-width: 50em) {
+  /* Titles move above their content when there is no room for a margin. */
+  main > section { grid-template-columns: minmax(0, 1fr); }
+  main > section > :not(.section-title) { grid-column: 1; }
+  .section-title { grid-row: auto; position: static; }
+
+  .home #contact { grid-template-columns: minmax(0, 1fr); }
+  .home #contact > * { grid-column: 1; }
+  .home #contact .contact-rows { margin-top: 1.5rem; }
+}
+
 @media (max-width: 35em) {
-  body {
-    padding: 3.75rem 1rem 3rem;
-    align-items: flex-start;
-  }
+  .intro { flex-direction: column-reverse; align-items: flex-start; }
 
-  .card-header {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 1.25rem;
-    padding: 1.75rem 1.5rem;
-  }
 
-  .header-photo {
-    width: 84px;
-    height: 84px;
-  }
-
-  .name { font-size: 1.75rem; }
-
-  .card-section {
-    padding: 1.5rem;
-  }
-
-  .card-footer {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem;
-  }
-
-  .social-list {
-    justify-content: flex-start;
-  }
-
-  .cta-btn {
-    justify-content: center;
-  }
+  /* On a phone the menus span the whole filter row, so they never run off the screen. */
+  .filter { position: static; }
+  .menu { inset-inline: 0; inline-size: auto; min-inline-size: 0; }
 }
