@@ -11,13 +11,12 @@
   --bg-light: #E6E6E6;            --bg-dark: #0A0A0A;
   --card-bg-light: #FAFAFA;       --card-bg-dark: #1C1C1C;
   --card-border-light: rgba(0, 0, 0, 0.16); --card-border-dark: rgba(255, 255, 255, 0.14);
-  --divider-light: rgba(0, 0, 0, 0.08);   --divider-dark: rgba(255, 255, 255, 0.08);
+  --divider-light: rgba(0, 0, 0, 0.12);   --divider-dark: rgba(255, 255, 255, 0.12);
   --text-light: #111111;          --text-dark: #FAFAFA;
   --text-soft-light: #6b6b6b;     --text-soft-dark: #999999;
   --border-light: #1a1a1a;        --border-dark: #FAFAFA;
   --border-soft-light: rgba(0, 0, 0, 0.12); --border-soft-dark: rgba(255, 255, 255, 0.15);
   --tag-bg-light: #ECECEC;        --tag-bg-dark: #232323;
-  --tag-bg-hover-light: #E0E0E0;  --tag-bg-hover-dark: #2E2E2E;
   --shadow-elev-light: 0 6px 16px rgba(0, 0, 0, 0.1);
   --shadow-elev-dark: 0 6px 16px rgba(0, 0, 0, 0.6);
 
@@ -31,7 +30,6 @@
   --border: var(--border-light);
   --border-soft: var(--border-soft-light);
   --tag-bg: var(--tag-bg-light);
-  --tag-bg-hover: var(--tag-bg-hover-light);
   --shadow-elev: var(--shadow-elev-light);
 
   @media (prefers-color-scheme: dark) {
@@ -44,7 +42,6 @@
     --border: var(--border-dark);
     --border-soft: var(--border-soft-dark);
     --tag-bg: var(--tag-bg-dark);
-    --tag-bg-hover: var(--tag-bg-hover-dark);
     --shadow-elev: var(--shadow-elev-dark);
   }
 
@@ -58,7 +55,6 @@
     --border: light-dark(var(--border-light), var(--border-dark));
     --border-soft: light-dark(var(--border-soft-light), var(--border-soft-dark));
     --tag-bg: light-dark(var(--tag-bg-light), var(--tag-bg-dark));
-    --tag-bg-hover: light-dark(var(--tag-bg-hover-light), var(--tag-bg-hover-dark));
     --shadow-elev: light-dark(var(--shadow-elev-light), var(--shadow-elev-dark));
   }
 
@@ -83,13 +79,13 @@
 * { margin: 0; padding: 0; }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg);
   color: var(--text);
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   /* Keep fallback monospace fonts the same width as JetBrains Mono to avoid a layout shift on swap. */
   font-size-adjust: ch-width from-font;
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.6;
   display: flex;
   align-items: center;
@@ -130,12 +126,13 @@ body {
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-bottom: 0.375rem;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .subtitle {
   font-size: 0.875rem;
   color: var(--text-soft);
+  text-wrap: balance;
 }
 
 .header-photo {
@@ -170,6 +167,7 @@ body {
   font-size: 0.9375rem;
   color: var(--text-soft);
   margin-bottom: 1.25rem;
+  text-wrap: pretty;
 }
 
 /* Tags */
@@ -183,11 +181,12 @@ body {
 .tag {
   padding: 0.5rem 0.875rem;
   background: var(--tag-bg);
+  /* Invisible normally; forced-colors mode turns it into a visible border. */
+  border: 1px solid transparent;
   border-radius: 6px;
   font-size: 0.8125rem;
   color: var(--text);
   font-family: inherit;
-  transition: background 0.15s ease;
 }
 
 /* PGP */
@@ -349,7 +348,7 @@ a:focus-visible, button:focus-visible {
 }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 560px) {
+@media (max-width: 35em) {
   body {
     padding: 3.75rem 1rem 3rem;
     align-items: flex-start;
