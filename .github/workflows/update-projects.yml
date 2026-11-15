@@ -1,0 +1,45 @@
+name: Update projects
+
+# Refreshes the project list from the GitHub repos and commits it when something changed.
+# The commit redeploys the site, so new and updated repos show up without running the script by hand.
+on:
+  schedule:
+    # Every day at 06:00 UTC.
+    - cron: '0 6 * * *'
+  # Also lets you run it from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Two runs at once would try to push the same change.
+concurrency:
+  group: update-projects
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Refresh the project list
+        run: node scripts/update-projects.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit the change
+        run: |
+          if git diff --quiet; then
+            echo "The project list is already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add projects/index.html
+          git commit -m "Updated the project list"
+          git push

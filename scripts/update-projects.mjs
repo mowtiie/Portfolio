@@ -64,7 +64,10 @@ const monthYear = (iso) =>
 
 async function fetchProjects() {
   const url = `https://api.github.com/users/${USER}/repos?per_page=100&type=owner`;
-  const response = await fetch(url, { headers: { 'User-Agent': 'portfolio-update-projects' } });
+  const headers = { 'User-Agent': 'portfolio-update-projects' };
+  // In GitHub Actions, the built-in token lifts the rate limit that shared runner addresses hit quickly.
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const response = await fetch(url, { headers });
   if (!response.ok) throw new Error(`GitHub API responded ${response.status}`);
   const repos = await response.json();
   return repos
