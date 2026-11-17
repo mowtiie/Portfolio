@@ -220,6 +220,17 @@ body:not(.home) main.wrap {
   overflow-wrap: anywhere;
 }
 
+/* A terminal-style cursor after each page title. It is a drawn box rather than a "_" character,
+   so screen readers have nothing to announce. The home hero keeps its plain name. */
+.page-title:not(.hero-title)::after {
+  content: "";
+  display: inline-block;
+  inline-size: 0.55em;
+  block-size: 0.09em;
+  margin-inline-start: 0.12em;
+  background: currentColor;
+}
+
 /* Utility pages (like the project list) get a quieter title so the content starts sooner. */
 .page-title-compact {
   font-size: clamp(2rem, 1rem + 3vw, 3rem);
@@ -965,6 +976,15 @@ main > section > :not(.section-title) {
 
   .intro-text .subtitle { animation-delay: 0.08s; }
   .intro .photo { animation-delay: 0.16s; }
+
+  /* The cursor blinks for four seconds, then rests. Blinking that never stops would need a pause control. */
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .page-title:not(.hero-title)::after {
+    animation: blink 1s steps(1, end) 4;
+  }
 
   /* A note lifts and straightens a little when you point at it. */
   .note { transition: translate 0.2s ease, rotate 0.2s ease; }
