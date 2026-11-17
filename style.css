@@ -170,6 +170,8 @@ a:focus-visible, button:focus-visible {
 .theme-toggle {
   width: 2.25rem;
   height: 2.25rem;
+  /* A wrapping header must not squeeze the round button into an oval. */
+  flex-shrink: 0;
   display: grid;
   place-items: center;
   border: 1px solid var(--border);
