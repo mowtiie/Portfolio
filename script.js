@@ -45,8 +45,7 @@ function addBackToTop() {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'back-to-top';
-  // The visible text names the button; the arrow is decoration.
-  button.innerHTML = 'back to top<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  button.textContent = 'back to top';
   document.body.append(probe, button);
 
   new IntersectionObserver(([entry]) => {

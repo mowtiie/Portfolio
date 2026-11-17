@@ -978,7 +978,6 @@ main > section > :not(.section-title) {
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
   min-block-size: 2.75rem;
   padding-inline: 1.125rem;
   /* Inverted, like the main button, so it stands out from the notes and text behind it. */
@@ -994,8 +993,6 @@ main > section > :not(.section-title) {
   opacity: 0;
   transition: opacity 0.2s ease, visibility 0.2s, background-color 0.2s;
 }
-
-.back-to-top svg { flex-shrink: 0; }
 
 .back-to-top:hover {
   background: var(--text-soft);
