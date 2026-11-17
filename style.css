@@ -976,14 +976,18 @@ main > section > :not(.section-title) {
   inset-inline-end: var(--gutter);
   /* Under the filter menus, above the notes. */
   z-index: 1;
-  display: grid;
-  place-items: center;
-  inline-size: 2.75rem;
-  aspect-ratio: 1;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--bg);
-  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 2.75rem;
+  padding-inline: 1.125rem;
+  /* Inverted, like the main button, so it stands out from the notes and text behind it. */
+  border: 1px solid var(--text);
+  border-radius: 999px;
+  background: var(--text);
+  color: var(--bg);
+  font: inherit;
+  font-size: 0.8125rem;
   cursor: pointer;
   /* Hidden this way, it also leaves the tab order and the accessibility tree. */
   visibility: hidden;
@@ -991,26 +995,20 @@ main > section > :not(.section-title) {
   transition: opacity 0.2s ease, visibility 0.2s, background-color 0.2s;
 }
 
-/* The arrow is drawn, like the one on the filter pills, so the label alone names the button. */
-.back-to-top::before {
-  content: "";
-  inline-size: 0.6rem;
-  aspect-ratio: 1;
-  border-top: 1.5px solid currentColor;
-  border-left: 1.5px solid currentColor;
-  rotate: 45deg;
-  translate: 0 0.15rem;
-}
+.back-to-top svg { flex-shrink: 0; }
 
-.back-to-top:hover { background: var(--surface); }
+.back-to-top:hover {
+  background: var(--text-soft);
+  border-color: var(--text-soft);
+}
 
 .back-to-top.is-visible {
   visibility: visible;
   opacity: 1;
 }
 
-/* On the narrowest phones the centered footer text reaches the button's corner. */
-@media (max-width: 24em) {
+/* On phones the centered footer text reaches the button's corner. */
+@media (max-width: 35em) {
   .site-footer { padding-block-end: 4.25rem; }
 }
 
