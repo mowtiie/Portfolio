@@ -62,14 +62,24 @@ const typeOf = (repo) =>
 const monthYear = (iso) =>
   new Date(iso).toLocaleString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' }).toLowerCase();
 
-async function fetchProjects() {
-  const url = `https://api.github.com/users/${USER}/repos?per_page=100&type=owner`;
+// The API returns at most 100 repos per page and links to the next page in the Link header.
+async function fetchAllRepos() {
   const headers = { 'User-Agent': 'portfolio-update-projects' };
   // In GitHub Actions, the built-in token lifts the rate limit that shared runner addresses hit quickly.
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-  const response = await fetch(url, { headers });
-  if (!response.ok) throw new Error(`GitHub API responded ${response.status}`);
-  const repos = await response.json();
+  const repos = [];
+  let url = `https://api.github.com/users/${USER}/repos?per_page=100&type=owner`;
+  while (url) {
+    const response = await fetch(url, { headers });
+    if (!response.ok) throw new Error(`GitHub API responded ${response.status}`);
+    repos.push(...(await response.json()));
+    url = response.headers.get('link')?.match(/<([^>]+)>;\s*rel="next"/)?.[1];
+  }
+  return repos;
+}
+
+async function fetchProjects() {
+  const repos = await fetchAllRepos();
   return repos
     .filter((repo) => !repo.fork && !repo.archived && !EXCLUDE.has(repo.name))
     // Most recently touched first.
