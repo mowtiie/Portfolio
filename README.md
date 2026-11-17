@@ -1,13 +1,14 @@
 # Personal portfolio
 
-A minimal single-page personal site.
+A small personal site with four pages: home, commits, logs and milestones.
 
 🔗 **Live:** [mowtiie.cc](https://mowtiie.cc)
 
 ## Stack
 
-- Plain HTML, CSS, and a small amount of JavaScript — no build step
-- [JetBrains Mono](https://fonts.google.com/specimen/JetBrains+Mono) via Google Fonts
+- Plain HTML, CSS, and a small amount of JavaScript, with no build step and no framework
+- [JetBrains Mono](https://www.jetbrains.com/lp/mono/), self-hosted in `fonts/` under the OFL license
+- Light and dark themes that follow the system, with a saved override from the toggle
 - Deployed on [Vercel](https://vercel.com)
 
 ## Run locally
@@ -18,9 +19,23 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-## Deploy
+## Project list
 
-Push to GitHub, then on [Vercel](https://vercel.com): Add New → Project → import repo → Deploy. Point your custom domain in Settings → Domains.
+The commits page is generated from my public GitHub repos by a Node script. The site itself stays static.
+
+```bash
+node scripts/update-projects.mjs
+```
+
+This needs Node 18 or newer. It fetches the repos, saves them to `scripts/projects.json`, and rewrites the project list in `commits/index.html`. Set `GITHUB_TOKEN` to avoid API rate limits.
+
+To re-render from the saved data without calling the API:
+
+```bash
+node scripts/update-projects.mjs --cached
+```
+
+A daily GitHub Actions workflow (`.github/workflows/update-projects.yml`) runs the script and commits any change, which redeploys the site.
 
 ## License
 
