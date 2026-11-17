@@ -2,13 +2,13 @@
 // Usage: node scripts/update-projects.mjs
 // The site itself needs no build step: this only rewrites static HTML.
 //
-// It fills the <!-- projects:start --> ... <!-- projects:end --> block in projects/index.html
+// It fills the <!-- projects:start --> ... <!-- projects:end --> block in commits/index.html
 // with the ledger and its filters.
 
 import { readFile, writeFile } from 'node:fs/promises';
 
 const USER = 'mowtiie';
-const PROJECTS_PAGE = new URL('../projects/index.html', import.meta.url);
+const PROJECTS_PAGE = new URL('../commits/index.html', import.meta.url);
 
 // Repos that are not projects (profile README, this site).
 const EXCLUDE = new Set(['mowtiie', 'Portfolio']);
