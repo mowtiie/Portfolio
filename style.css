@@ -1004,3 +1004,26 @@ main > section > :not(.section-title) {
   .filter { position: static; }
   .menu { inset-inline: 0; inline-size: auto; min-inline-size: 0; }
 }
+
+/* ---------- Touch screens ---------- */
+/* Fingertips need about 44px; a mouse is fine with the smaller sizes above. */
+@media (pointer: coarse) {
+  .site-brand,
+  .project-name,
+  .pgp-download,
+  .site-nav a,
+  .footer-links a,
+  .contact-rows a,
+  .filter-reset,
+  .filter-clear,
+  .query-reference summary {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+  }
+
+  .theme-toggle,
+  .pill { min-block-size: 2.75rem; }
+
+  .theme-toggle { min-inline-size: 2.75rem; }
+}
