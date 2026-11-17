@@ -1,6 +1,7 @@
 // Refreshes the project ledger from your public GitHub repos.
-// Usage: node scripts/update-projects.mjs
+// Usage: node scripts/update-projects.mjs [--cached]
 // The site itself needs no build step: this only rewrites static HTML.
+// The fetched repos are saved to scripts/projects.json. --cached renders from that file instead of calling the API.
 //
 // It fills the <!-- projects:start --> ... <!-- projects:end --> block in commits/index.html
 // with the ledger and its filters.
@@ -9,6 +10,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 
 const USER = 'mowtiie';
 const PROJECTS_PAGE = new URL('../commits/index.html', import.meta.url);
+const CACHE_FILE = new URL('./projects.json', import.meta.url);
 
 // Repos that are not projects (profile README, this site).
 const EXCLUDE = new Set(['mowtiie', 'Portfolio']);
@@ -78,17 +80,28 @@ async function fetchAllRepos() {
   return repos;
 }
 
-async function fetchProjects() {
+// Keeps only the fields the page uses, so the cache stays small and its diffs stay readable.
+async function fetchRepos() {
   const repos = await fetchAllRepos();
   return repos
     .filter((repo) => !repo.fork && !repo.archived && !EXCLUDE.has(repo.name))
     // Most recently touched first.
     .sort((a, b) => b.pushed_at.localeCompare(a.pushed_at))
-    .map((repo) => {
-      const type = typeOf(repo);
-      const language = repo.language ?? '';
-      return { repo, type, language, languageSlug: language ? slugify(language) : '' };
-    });
+    .map(({ name, description, html_url, language, topics, stargazers_count, pushed_at }) =>
+      ({ name, description, html_url, language, topics, stargazers_count, pushed_at }));
+}
+
+async function loadRepos() {
+  if (process.argv.includes('--cached')) return JSON.parse(await readFile(CACHE_FILE, 'utf8'));
+  const repos = await fetchRepos();
+  await writeFile(CACHE_FILE, `${JSON.stringify(repos, null, 2)}
+`);
+  return repos;
+}
+
+function toProject(repo) {
+  const language = repo.language ?? '';
+  return { repo, type: typeOf(repo), language, languageSlug: language ? slugify(language) : '' };
 }
 
 function renderItem({ repo, type, language, languageSlug }) {
@@ -191,6 +204,6 @@ async function replaceBlock(file, name, content) {
   await writeFile(file, `${html.slice(0, startIndex + start.length)}\n      ${content}\n      ${html.slice(endIndex)}`);
 }
 
-const projects = await fetchProjects();
+const projects = (await loadRepos()).map(toProject);
 await replaceBlock(PROJECTS_PAGE, 'projects', renderProjectsBlock(projects));
 console.log(`Wrote ${projects.length} projects`);

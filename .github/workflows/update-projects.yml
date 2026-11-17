@@ -34,12 +34,12 @@ jobs:
 
       - name: Commit the change
         run: |
-          if git diff --quiet; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "The project list is already up to date."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add commits/index.html
+          git add commits/index.html scripts/projects.json
           git commit -m "Updated the project list"
           git push
