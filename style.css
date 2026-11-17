@@ -417,11 +417,14 @@ main > section > :not(.section-title) {
   .timeline li:nth-child(odd) .timeline-text { margin-inline-start: auto; }
 }
 
-/* The timeline page is centered, so the title and intro line up with the thread. */
-.timeline-page main > .page-title,
-.timeline-page main > .lede {
-  margin-inline: auto;
-  text-align: center;
+/* On wide screens the thread is centered, so the title and intro line up with it.
+   Below that the thread hugs the left edge, so the heading stays left too. */
+@media (min-width: 50em) {
+  .timeline-page main > .page-title,
+  .timeline-page main > .lede {
+    margin-inline: auto;
+    text-align: center;
+  }
 }
 /* ---------- Projects ---------- */
 /* The controls only work with JavaScript, so they only take up space once it is available.
