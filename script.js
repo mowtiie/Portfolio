@@ -34,3 +34,33 @@ if (toggle && meta) {
     if (e.key === 'color-scheme' || e.key === null) applyStored(e.newValue);
   });
 }
+
+// Back to top: a button that appears once the reader is more than a screen down.
+// A probe one screen tall at the top of the page tells us when it has scrolled out of view,
+// so there is no scroll listener. Both elements are created here, so the page needs no markup for them.
+function addBackToTop() {
+  const probe = document.createElement('div');
+  probe.className = 'scroll-probe';
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'back-to-top';
+  button.setAttribute('aria-label', 'Back to top');
+  document.body.append(probe, button);
+
+  new IntersectionObserver(([entry]) => {
+    const show = !entry.isIntersecting;
+    button.classList.toggle('is-visible', show);
+    // Keyboard users can scroll away (Home) while the button has focus; a hidden button would drop it.
+    if (!show && button === document.activeElement) {
+      document.querySelector('.site-nav a')?.focus({ preventScroll: true });
+    }
+  }).observe(probe);
+
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  button.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+  });
+}
+
+addBackToTop();
