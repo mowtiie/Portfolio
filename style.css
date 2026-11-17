@@ -221,8 +221,8 @@ body:not(.home) main.wrap {
 }
 
 /* A terminal-style cursor after each page title. It is a drawn box rather than a "_" character,
-   so screen readers have nothing to announce. The home hero keeps its plain name. */
-.page-title:not(.hero-title)::after {
+   so screen readers have nothing to announce. */
+.page-title::after {
   content: "";
   display: inline-block;
   inline-size: 0.55em;
@@ -982,7 +982,7 @@ main > section > :not(.section-title) {
     50% { opacity: 0; }
   }
 
-  .page-title:not(.hero-title)::after {
+  .page-title::after {
     animation: blink 1s steps(1, end) 4;
   }
 
