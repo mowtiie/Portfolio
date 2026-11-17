@@ -810,6 +810,20 @@ main > section > :not(.section-title) {
   font-size: 0.875rem;
   text-wrap: pretty;
 }
+/* A short line of context under a section title, and a quiet label for each group of notes. */
+.section-intro {
+  max-width: 60ch;
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+.season-title {
+  margin-block: 2rem 0.25rem;
+  color: var(--text-soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
 /* Hidden by the filter; keeps the rule from being beaten by display values above. */
 .project[hidden] { display: none; }
 
