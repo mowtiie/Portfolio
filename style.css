@@ -486,6 +486,9 @@ main > section > :not(.section-title) {
 
 .pill:hover { background: var(--surface); }
 
+/* The Query pill has no arrow to flip, so its open panel is shown by a filled background. */
+.pill-query[aria-expanded="true"] { background: var(--surface); }
+
 /* Something is chosen in this menu. */
 .pill[data-active],
 .pill[data-active]:hover {
