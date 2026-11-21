@@ -1,5 +1,20 @@
 [
   {
+    "name": "Neovim-Config",
+    "description": "This is my personal configuration for Neovim",
+    "html_url": "https://github.com/mowtiie/Neovim-Config",
+    "language": "Lua",
+    "topics": [
+      "dotfiles",
+      "lua",
+      "neovim",
+      "neovim-config",
+      "nvim"
+    ],
+    "stargazers_count": 0,
+    "pushed_at": "2026-11-20T16:09:30Z"
+  },
+  {
     "name": "Mesgard",
     "description": "Real-time messaging for schools and institutions. Android app on a self-hostable Supabase backend.",
     "html_url": "https://github.com/mowtiie/Mesgard",
@@ -14,7 +29,7 @@
       "supabase"
     ],
     "stargazers_count": 0,
-    "pushed_at": "2026-11-20T14:09:41Z"
+    "pushed_at": "2026-11-20T15:00:38Z"
   },
   {
     "name": "Harriet",
@@ -396,20 +411,5 @@
     ],
     "stargazers_count": 0,
     "pushed_at": "2026-06-11T10:59:11Z"
-  },
-  {
-    "name": "Neovim-Config",
-    "description": "This is my personal configuration for Neovim",
-    "html_url": "https://github.com/mowtiie/Neovim-Config",
-    "language": "Lua",
-    "topics": [
-      "dotfiles",
-      "lua",
-      "neovim",
-      "neovim-config",
-      "nvim"
-    ],
-    "stargazers_count": 0,
-    "pushed_at": "2025-11-08T15:33:57Z"
   }
 ]
