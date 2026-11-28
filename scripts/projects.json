@@ -1,5 +1,21 @@
 [
   {
+    "name": "Writa",
+    "description": "Offline-first Android notes app (Kotlin, Compose, Material 3) that syncs to your own Supabase project.",
+    "html_url": "https://github.com/mowtiie/Writa",
+    "language": "Kotlin",
+    "topics": [
+      "android",
+      "jetpack-compose",
+      "kotlin",
+      "offline-first",
+      "room",
+      "supabase"
+    ],
+    "stargazers_count": 0,
+    "pushed_at": "2026-11-28T11:25:59Z"
+  },
+  {
     "name": "Mesgard",
     "description": "Real-time messaging for schools and institutions. Android app on a self-hostable Supabase backend.",
     "html_url": "https://github.com/mowtiie/Mesgard",
@@ -134,22 +150,6 @@
     ],
     "stargazers_count": 0,
     "pushed_at": "2026-11-03T05:36:47Z"
-  },
-  {
-    "name": "Writa",
-    "description": "Offline-first Android notes app (Kotlin, Compose, Material 3) that syncs to your own Supabase project.",
-    "html_url": "https://github.com/mowtiie/Writa",
-    "language": "Kotlin",
-    "topics": [
-      "android",
-      "jetpack-compose",
-      "kotlin",
-      "offline-first",
-      "room",
-      "supabase"
-    ],
-    "stargazers_count": 0,
-    "pushed_at": "2026-11-02T18:40:57Z"
   },
   {
     "name": "IReport",
